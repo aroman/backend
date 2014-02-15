@@ -1,6 +1,6 @@
 import requests
 import json
-import funcy as f
+from functools import wraps
 from flask import Flask, request, render_template, redirect, url_for, session
 from flask.ext.pymongo import PyMongo
 from pprint import pprint as pp
@@ -20,6 +20,14 @@ mongo = PyMongo(app)
 def logged_in():
     return "venmo_id" in session
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "venmo_id" not in session:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route("/")
 def index():
     return render_template('index.html',
@@ -32,9 +40,13 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route("/shake", methods=['POST'])
+@login_required
 def shake():
     pp(request.form)
-    return json.dumps(request.form)
+    mongo.db.bets.insert({
+        'challenger_token': request.form.pebble_token,
+    })
+    return "OK for now"
 
 @app.route("/setup")
 def setup():
@@ -58,11 +70,10 @@ def setup():
         access_token = response_dict.get('access_token')
 
         user_from_oauth = response_dict.get('user')
-        user_from_db = mongo.db.users.find_one(user['id'])
+        user_from_db = mongo.db.users.find_one(user_from_oauth['id'])
 
         if user_from_db:
             print "User has used BetsOn before; we have them in the DB."
-            user_from_db = dict(user)
             user_from_db['access_token'] = access_token
             user_from_db['firstname'] = user_from_oauth['firstname']
             user_from_db['lastname'] = user_from_oauth['lastname']
@@ -89,15 +100,19 @@ def setup():
         session['firstname'] = user_from_oauth['firstname']
         session['lastname'] = user_from_oauth['lastname']
         session['avatar_url'] = user_from_oauth['picture']
-
-        if 'return_url' in session and session['return_url']:
-            url = session['return_url']
-            session['return_url'] = None
-            return redirect(url)
-        else:
-            return redirect(url_for('index'))
     else:
         return "Error"
+
+@app.route("/bets/new", methods=['GET', 'POST'])
+@login_required
+def new_bet():
+    pp(request.form)
+    return render_template('new_bet.html',
+            logged_in=logged_in(),
+            VENMO_OAUTH_URL=VENMO_OAUTH_URL)
+    # mongo.db.bets.insert({
+        # ''    
+    # })
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)

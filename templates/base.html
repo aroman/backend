@@ -1,3 +1,13 @@
 <html>
+	<a href="/">Home</a>
+	{% if logged_in %}
+	  <a href="https://venmo.com/{{ session.username }}"><img class="nav-avatar" src="{{ session.avatar_url }}" /> {{ session.firstname }} {{ session.lastname }}</a>
+	  <a href="/logout">Sign Out</a>
+	  <br>
+	  <br>
+	  <!-- <textarea style="resize:none; width: 500px; height: 200px; font-family: Courier New; font-size: 16px; outline: none;" readonly>{{session}}</textarea> -->
+	{% else %}
+	  <a href="{{ VENMO_OAUTH_URL }}">Sign In with Venmo</a>
+	{% endif %}
 	{% block content %}{% endblock %}
 </html>
