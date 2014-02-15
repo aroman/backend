@@ -16,6 +16,8 @@ VENMO_OAUTH_CLIENT_SECRET = "kS6Xwrd9rzzkSd3C2BcjhJFMAxH3Kv3P"
 VENMO_ACCESS_TOKEN = "eSN3Z3A2KeRbcnNTqgLu6mRA4K9uED9V"
 VENMO_OAUTH_URL = "https://venmo.com/oauth/authorize?client_id=%s&scope=make_payments,access_profile,access_phone,access_friends,access_balance&response_type=code" % VENMO_OAUTH_CLIENT_ID
 
+MATCHMAKING_TIMEOUT = 5 # seconds
+
 app = Flask(__name__)
 app.config['MONGO_URI'] = "mongodb://ludacris:moneymaker@ds033499.mongolab.com:33499/betson"
 app.secret_key = 'zgzQQCCn50mDwScfOyQ9'
@@ -60,42 +62,65 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-inprogress = []
+shakes_in_progress = []
 
-@app.route("/shake/syn", methods=['POST'])
-def shake_syn():
-    pp(request.form)
-    # pebble_token = request.form.pebble_token
-    # mongo.db.inprogress.insert({
-    #     "challenger_token": pebble_token,
-    #     "syn_time": datetime.datetime.utcnow()
-    # })
-    inprogress.append({
-        "challenger_token": "123abc",
-        "syn_time": datetime.datetime.utcnow()
-    })
-    return "SYN posted"
+@app.route("/shake/<bet_id>", methods=['POST'])
+def shake_propose(bet_id):
+    pebble_token = request.form['pebble_token']
+    now = datetime.datetime.utcnow()
 
-@app.route("/shake/ack", methods=['POST'])
-def shake_ack():
-    pp(request.form)
-    # pebble_token = request.form.pebble_token
-    ack_time = datetime.datetime.utcnow()
+    already_in = False
+    for shake in shakes_in_progress:
+        if 'proposer_token' in shake:
+            already_in = shake['proposer_token'] == pebble_token
+            shake['propose_time'] = now
+        if 'accept_time' in shake:
+            delta = (now - shake['accept_time']).seconds
+            if delta < MATCHMAKING_TIMEOUT:
+                shakes_in_progress.remove(shake)
+                return "WE'VE GOT A MATCH!!!!!"
+    if already_in:
+        return "Already advertised, updated timestamp"
+    else:
+        to_append = {
+            "proposer_token": pebble_token,
+            "propose_time": now 
+        }
+        shakes_in_progress.append(to_append)
+        return "Not listed; advertised"
 
-    for shake in inprogress:
-        delta = (ack_time - shake['syn_time']).seconds
-        if delta < 5:
-            return "WE'VE GOT A MATCH!!!!!"
-    return "No match :("
-    # to_append = {
-    #     "challenger_token": pebble_token,
-    #     "syn_time": int(time.time())
-    # }
-    # shakes_in_progress.append(to_append)
-    # return "OK for now"
+    pp(shakes_in_progress)
+
+@app.route("/shake", methods=['POST'])
+def shake_accept():
+    pebble_token = request.form['pebble_token']
+    now = datetime.datetime.utcnow()
+
+    already_in = False
+    for shake in shakes_in_progress:
+        if 'accepter_token' in shake:
+            already_in = shake['accepter_token'] == pebble_token
+            shake['accept_time'] = now
+        if 'propose_time' in shake:
+            delta = (now - shake['propose_time']).seconds
+            if delta < MATCHMAKING_TIMEOUT:
+                shakes_in_progress.remove(shake)
+                return "WE'VE GOT A MATCH!!!!!"
+    if already_in:
+        return "Already advertised, updated timestamp"
+    else:
+        to_append = {
+            "accepter_token": pebble_token,
+            "accept_time": now 
+        }
+        shakes_in_progress.append(to_append)
+        return "Not listed; advertised"
+    pp(shakes_in_progress)
+
 
 @app.route("/pair/<pair_token>", methods=['POST'])
 def pair(pair_token):
+    pp(shakes_in_progress)
     pp(request.form)
     pebble_token = request.form['pebble_token']
     p[pair_token].trigger('success', {'message': 'PAIRED w/ %s' % pebble_token })
