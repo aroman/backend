@@ -1,8 +1,10 @@
 import requests
+import json
 import funcy as f
 from flask import Flask, request, render_template, redirect, url_for, session
 from flask.ext.pymongo import PyMongo
 from pprint import pprint as pp
+from pprint import pformat
 
 VENMO_OAUTH_CLIENT_ID = "1601"
 VENMO_OAUTH_CLIENT_SECRET = "kS6Xwrd9rzzkSd3C2BcjhJFMAxH3Kv3P"
@@ -28,6 +30,11 @@ def index():
 def logout():
     session.pop('venmo_id', None)
     return redirect(url_for('index'))
+
+@app.route("/shake", methods=['POST'])
+def shake():
+    pp(request.form)
+    return json.dumps(request.form)
 
 @app.route("/setup")
 def setup():
