@@ -1,13 +1,15 @@
+import time
 import json
 import string
 import random
 import pusher
+import datetime
 import requests
+import funcy
 from functools import wraps
-from flask import Flask, request, render_template, redirect, url_for, session, jsonify, g
-from flask.ext.pymongo import PyMongo
 from pprint import pprint as pp
-from pprint import pformat
+from flask.ext.pymongo import PyMongo
+from flask import Flask, request, render_template, redirect, url_for, session, jsonify, g
 
 VENMO_OAUTH_CLIENT_ID = "1601"
 VENMO_OAUTH_CLIENT_SECRET = "kS6Xwrd9rzzkSd3C2BcjhJFMAxH3Kv3P"
@@ -58,14 +60,39 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route("/shake", methods=['POST'])
-@login_required
-def shake():
+inprogress = []
+
+@app.route("/shake/syn", methods=['POST'])
+def shake_syn():
     pp(request.form)
-    mongo.db.bets.insert({
-        'challenger_token': request.form.pebble_token,
+    # pebble_token = request.form.pebble_token
+    # mongo.db.inprogress.insert({
+    #     "challenger_token": pebble_token,
+    #     "syn_time": datetime.datetime.utcnow()
+    # })
+    inprogress.append({
+        "challenger_token": "123abc",
+        "syn_time": datetime.datetime.utcnow()
     })
-    return "OK for now"
+    return "SYN posted"
+
+@app.route("/shake/ack", methods=['POST'])
+def shake_ack():
+    pp(request.form)
+    # pebble_token = request.form.pebble_token
+    ack_time = datetime.datetime.utcnow()
+
+    for shake in inprogress:
+        delta = (ack_time - shake['syn_time']).seconds
+        if delta < 5:
+            return "WE'VE GOT A MATCH!!!!!"
+    return "No match :("
+    # to_append = {
+    #     "challenger_token": pebble_token,
+    #     "syn_time": int(time.time())
+    # }
+    # shakes_in_progress.append(to_append)
+    # return "OK for now"
 
 @app.route("/pair/<pair_token>", methods=['POST'])
 def pair(pair_token):
@@ -76,7 +103,7 @@ def pair(pair_token):
     if r['updatedExisting'] == True:
         return "success"
     else:
-        return "failed; invalid or expired token"
+        return "failed; token expired, invalid or already paired"
 
     return "Success"
 
@@ -142,6 +169,7 @@ def setup():
 @app.route("/bets", methods=['GET'])
 @login_required
 def bets():
+    request.form.pebble_token
     bets_data = [{"title": "twitter", "subtitle": "My most recent Facebook post will get more likes!"}]
     return jsonify(bets=bets_data)
 
