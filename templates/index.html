@@ -1,7 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-<br>
-<br>
-<a href="/bets/new">Make a new bet</a>
+	<br>
+	<br>
+	{% if logged_in %}
+		{% if pair_token %}
+			<script src="http://js.pusher.com/2.1/pusher.min.js" type="text/javascript"></script>
+			<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+			  <script type="text/javascript">
+			    // Enable pusher logging - don't include this in production
+			    Pusher.log = function(message) {
+			      if (window.console && window.console.log) {
+			        window.console.log(message);
+			      }
+			    };
+
+			    var pusher = new Pusher('e4bab17358b4582eb567');
+			    var channel = pusher.subscribe("{{ pair_token }}");
+			    channel.bind('success', function(data) {
+		    	$("#instructions").hide();
+			      $("#finished").html(data.message);
+			    });
+			  </script>
+			<center id="instructions">
+				<h2>You need to connect your pebble to BetsOn.</h2>
+				<br>
+				<br>
+				<span style="font-size:24px"> 1. Download our app from the Pebble AppStore</span>
+				<br>
+				<br>
+				<span style="font-size:24px">2. Type in this code on your Pebble: <strong style="font-size: 30px">{{ pair_token }}</strong></span>
+			</center>
+			<center>
+				<h1 id="finished"></h1>
+			</center>
+		{% else %}
+			You're paired and good to go!
+			<br>
+			<a href="/bets/new">Make a new bet</a>
+		{% endif %}
+	{% endif %}
 {% endblock %}
