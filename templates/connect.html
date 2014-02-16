@@ -13,34 +13,39 @@
         var pusher = new Pusher('e4bab17358b4582eb567');
         var channel = pusher.subscribe("{{ pair_token }}");
         channel.bind('success', function(data) {
-            $("#instructions").hide();
-            $("#finished").show();
+            $("#instructions").addClass('moving');
+			setTimeout( function () {
+				$('#instructions').hide();
+	            $("#finished").addClass('moving');
+			}, 800);
         });
     </script>
-    <div id="instructions" class="content pair">
-        <div class="container">
-            <hgroup class="main">
-                <div class="icon">
-                    <img src="{{ url_for('static', filename='img/icon-pair.gif') }}" />
-                </div>
-                <h1>Pair Your Pebble</h1>
-                <p>
-                    To begin, download BetsOn from the Pebble App Store.
-                    <br />Enter this code on configure to pair.
-                </p>
-            </hgroup>
+	<div class="wrapper">
+	    <div id="instructions" class="content pair">
+	        <div class="container">
+	            <hgroup>
+	                <div class="icon">
+	                    <img src="{{ url_for('static', filename='img/icon-pair.gif') }}" />
+	                </div>
+	                <h1>Pair Your Pebble</h1>
+	                <p>
+	                    To begin, download BetsOn from the Pebble App Store.
+	                    <br />Enter this code on configure to pair.
+	                </p>
+	            </hgroup>
             
-            <div class="code">{{ pair_token }}</div>
-        </div>
-    </div>
-    <div id="finished" class="content pair paired">
-        <div class="container">
-            <hgroup class="main">
-                <div class="icon icon-check">
-                    <img src="{{ url_for('static', filename='img/icon-check.gif') }}" />
-                </div>
-                <h1>Paired.</h1>
-            </hgroup>
-        </div>
-    </div>
+	            <div class="code">{{ pair_token }}</div>
+	        </div>
+	    </div>
+	    <div id="finished" class="content pair paired">
+	        <div class="container">
+	            <hgroup>
+	                <div class="icon icon-check">
+	                    <img src="{{ url_for('static', filename='img/icon-check.gif') }}" />
+	                </div>
+	                <h1>Paired.</h1>
+	            </hgroup>
+	        </div>
+	    </div>
+	</div>
 {% endblock %}

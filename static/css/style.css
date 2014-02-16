@@ -683,6 +683,10 @@ header .icon-logout:hover path {
   width: 100%;
   height: 100%;
 }
+.pair.moving {
+  -webkit-animation: pairOut 0.8s ease-in-out;
+  animation: pairOut 0.8s ease-in-out;
+}
 .pair .container {
   display: table-cell;
   vertical-align: middle;
@@ -715,6 +719,10 @@ header .icon-logout:hover path {
 }
 .paired h1 {
   font-size: 60px;
+}
+.paired.moving {
+  -webkit-animation: pairIn 0.8s ease-in-out;
+  animation: pairIn 0.8s ease-in-out;
 }
 .landing {
   overflow: hidden;
@@ -764,7 +772,52 @@ header .icon-logout:hover path {
   display: table-cell;
   vertical-align: middle;
 }
+.wrapper {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
 /* Animations */
+@keyframes pairIn {
+  0% {
+    -webkit-transform: translate(0, -7%);
+    transform: translate(0, -7%);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes pairIn {
+  0% {
+    -webkit-transform: translate(0, -7%);
+    transform: translate(0, -7%);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes pairOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translate(0, -7%);
+    transform: translate(0, -7%);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes pairOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translate(0, -7%);
+    transform: translate(0, -7%);
+    opacity: 0;
+  }
+}
 @keyframes landingComeIn {
   0% {
     -webkit-transform: translate(0, -30%);
