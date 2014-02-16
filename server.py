@@ -218,11 +218,7 @@ def win():
 def new_bet():
     pp(request.form)
     return render_template('new_bet.html',
-            logged_in=logged_in(),
-            VENMO_OAUTH_URL=VENMO_OAUTH_URL)
-    # mongo.db.bets.insert({
-        # ''    
-    # })
+            logged_in=logged_in())
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)

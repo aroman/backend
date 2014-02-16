@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+	<div class="container">
+		<hgroup class="main">
+			<h1>Design a New Bet</h1>
+		</hgroup>
+		<div class="design">
+			<section>
+				<hgroup class="mid">
+					<div class="order">
+						1
+					</div>
+					<h2>Choose a Platform</h2>
+				</hgroup>
+				<div class="inner select">
+					<div class="platforms options">
+						<a href="#">
+							<img src="{{ url_for('static', filename='img/platform-flappy.jpg') }}" alt="Flappy Bird" />
+						</a>
+						<a href="#">
+							<img src="{{ url_for('static', filename='img/platform-flappy.jpg') }}" alt="Flappy Bird" />
+						</a>
+						<a href="#">
+							<img src="{{ url_for('static', filename='img/platform-flappy.jpg') }}" alt="Flappy Bird" />
+						</a>
+						<a href="#">
+							<img src="{{ url_for('static', filename='img/platform-flappy.jpg') }}" alt="Flappy Bird" />
+						</a>
+					</div>
+				</div>
+			</section>
+			
+
+			<section>
+				<hgroup class="mid">
+					<div class="order">
+						2
+					</div>
+					<h2>Choose a Win Condition</h2>
+				</hgroup>
+				<div class="inner select">
+					<div class="options conditions">
+						<a href="#">
+							Past Level X
+						</a>
+						<a href="#">
+							At Level X with Y Lives
+						</a>
+						<a href="#">
+							When X Happens
+						</a>
+						<a href="#">
+							When X Happens
+						</a>
+						<a href="#">
+							When X Happens
+						</a>
+					</div>
+				</div>
+			</section>
+			
+
+			<section>
+				<hgroup class="mid">
+					<div class="order">
+						3
+					</div>
+					<h2>Set Variable Values</h2>
+				</hgroup>
+				<div class="inner select">
+					<div class="options variables">
+						When <input type="text" class="fill-line" />,
+						that player wins!
+					</div>
+				</div>
+			</section>
+			
+
+			<section>
+				<hgroup class="mid">
+					<div class="order">
+						4
+					</div>
+					<h2>Raise the Stakes</h2>
+				</hgroup>
+				<div class="inner select">
+					<div class="social">
+						<span>Let the world know who emerged victorious.</span>
+						
+						<a href="#" class="btn btn-twitter">Share Results on Twitter</a>
+						<a href="#" class="btn btn-facebook">Share Results on Facebook</a>
+					</div>
+				</div>
+			</section>
+			
+			<div class="submit">
+				<a href="#" class="btn btn-primary btn-lg">Save this Bet</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
