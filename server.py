@@ -108,6 +108,7 @@ def shake_propose(bet_id):
             delta = (now - shake['accept_time']).seconds
             if delta < MATCHMAKING_TIMEOUT:
                 shakes_in_progress.remove(shake)
+                print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
     if already_in:
         return "Already advertised, updated timestamp"
@@ -135,6 +136,7 @@ def shake_accept():
             delta = (now - shake['propose_time']).seconds
             if delta < MATCHMAKING_TIMEOUT:
                 shakes_in_progress.remove(shake)
+                print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
     if already_in:
         return "Already advertised, updated timestamp"
@@ -221,7 +223,8 @@ def setup():
 
 @app.route("/bets", methods=['GET', 'POST'])
 def bets():
-    # pebble_token = request.form['pebble_token']
+    pebble_token = request.form['pebble_token']
+
     bets_data = [{"label": "twitter", "id": 123, "description": "My most recent Facebook post will get more likes!"}]
     return jsonify(bets=bets_data)
 

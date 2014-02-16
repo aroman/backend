@@ -37,22 +37,22 @@
 				</hgroup>
 				<div class="inner select">
 					<div id="hackernews-conditions" class="options conditions">
-						<a href="#">I've been on Hacker News Longer</a>
-						<a href="#">I've got more karma on Hacker News</a>
+						<a href="#" class="condition">I've been on Hacker News Longer</a>
+						<a href="#" class="condition">I've got more karma on Hacker News</a>
 					</div>
 					<div id="twitter-conditions" class="options conditions">
-						<a href="#">I've got more followers on twitter</a>
-						<a href="#">I've got more tweets on twitter</a>
-						<a href="#">My latest tweet got more retweets</a>
-						<a href="#">My latest tweet got more favorites</a>
+						<a href="#" class="condition">I've got more followers on twitter</a>
+						<a href="#" class="condition">I've got more tweets on twitter</a>
+						<a href="#" class="condition">My latest tweet got more retweets</a>
+						<a href="#" class="condition">My latest tweet got more favorites</a>
 					</div>
 					<div id="reddit-conditions" class="options conditions">
-						<a href="#">I've been a member for longer</a>
-						<a href="#">I've got more karma on reddit</a>
+						<a href="#" class="condition">I've been a member for longer</a>
+						<a href="#" class="condition">I've got more karma on reddit</a>
 					</div>
 					<div id="custom-conditions" class="options conditions">
-						<a href="#">Website will contain string</a>
-						<a href="#">Website won't contain string</a>
+						<a href="#" class="condition">Website will contain string</a>
+						<a href="#" class="condition">Website won't contain string</a>
 					</div>
 				</div>
 			</section>
@@ -110,16 +110,26 @@
 						$(".conditions").hide();
 						$('#' + current_platform + "-conditions").show();
 						setTimeout(function () {
-							$('html, body').animate({
-							        scrollTop: $("#choose-platform").offset().top - 10
-						    }, 1000);
+							$("html, body").scrollTo("#choose-platform", 1000, {offset: {top: 10}});
+							// $('html, body').animate({
+							//         scrollTop: $("#choose-platform").offset().top - 10
+						 //    }, 1000);
 						}, 250);
+
 					} else {
 						// EXISTING SELECTION
 						// NO FUCKING OP
 					}
 
 				});
+				$(".condition").click (function () {
+					$("#set-variable-values").fadeIn();
+					// $(".conditions").hide();
+					// $('#' + current_platform + "-conditions").show();
+					setTimeout(function () {
+						("html, body").scrollTo("#set-variable-values", 1000, {offset: {top: 10}});
+					}, 250);
+				})
 			</script>
 		</div>
 	</div>
