@@ -96,7 +96,39 @@ shakes_in_progress = []
 
 def actually_create_bet(bet_object):
     pp(bet_object)
-    return "" 
+    proposer_from_db = mongo.db.users.find_one({"pebble_token": bet_object['proposer_token']})
+    accepter_from_db = mongo.db.users.find_one({"pebble_token": bet_object['accepter_token']})
+    if bet_object['bet_id'] == 100:
+        # Hard code: proposer wins
+        actual_charge = bet_object['bet_amount']
+        venmo_note = "%s won a bet with %s!" % (proposer_from_db.firstname, accepter_from_db.firstname)
+        proposer_won = True
+    elif bet_object['bet_id'] == 200:
+        # Hard code: proposer loses
+        actual_charge = -bet_object['bet_amount']
+        venmo_note = "%s lost a bet with %s!" % (accepter_from_db.firstname, proposer_from_db.firstname)
+        proposer_won = False
+    else:
+        err = "ERROR: Unknown bet ID!"
+        return err
+    mongo.db.bets.insert({
+        "proposer": proposer_from_db['_id'],
+        "accepter": accepter_from_db['_id'],
+        "amount": bet_object['amount'],
+        "timestamp": bet_object['timestamp'],
+        "proposer_won": proposer_won 
+    })
+    url = "https://api.venmo.com/payments"
+    data = {
+        "access_token": proposer_from_db['access_token'],
+        "user_id": accepter_from_db['venmo_id'],
+        "note": "%s (via BetsOn)" % venmo_note,
+        "amount": actual_charge 
+    }
+    pp(data)
+    response = requests.post(url, data)
+    pp(response.json())
+    return "OK" 
 
 @app.route("/shake/<bet_id>", methods=['POST'])
 def shake_propose(bet_id):
@@ -115,6 +147,7 @@ def shake_propose(bet_id):
                 actually_create_bet({
                     "bet_id": bet_id,
                     "bet_amount": bet_amount,
+                    "timestamp": now,
                     "proposer_token": pebble_token,
                     "accepter_token": shake['accepter_token'],
                 })
@@ -151,6 +184,7 @@ def shake_accept():
                 actually_create_bet({
                     "bet_id": shake['bet_id'],
                     "bet_amount": shake['bet_amount'],
+                    "timestamp": now,
                     "proposer_token": shake['proposer_token'],
                     "accepter_token": pebble_token,
                 })
