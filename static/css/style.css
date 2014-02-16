@@ -892,6 +892,13 @@ header .icon-logout:hover path {
   text-align: center;
   padding: 4em;
 }
+.design .submit .btn.disabled {
+  cursor: default;
+  background-color: #9dcfa0;
+}
+.design .submit .btn.disabled:hover {
+  background-color: #9dcfa0;
+}
 .design .social {
   text-align: center;
 }

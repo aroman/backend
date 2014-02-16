@@ -705,6 +705,17 @@ header {
 		border-top:2px solid @ghost;
 		text-align:center;
 		padding:4em;
+		
+		.btn {
+			&.disabled {
+				cursor:default;
+				background-color:#9dcfa0;
+				
+				&:hover {
+					background-color:#9dcfa0;
+				}
+			}
+		}
 	}
 	
 	.social {
