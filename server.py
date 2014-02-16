@@ -324,7 +324,7 @@ def bets():
         da_bets.append({
             "label": user_bet['label'],
             "description": user_bet['kind'],
-            "id": user_bet['_id']
+            "id": str(user_bet['_id'])
         })
     pp(da_bets)
     bets_data = [{"label": "propwin", "id": 100, "description": "Proposer will always win!"},
