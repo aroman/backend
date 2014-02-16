@@ -231,6 +231,10 @@ svg {
   min-width: 100%;
   height: 100%;
 }
+.no-responsive {
+  min-width: auto;
+  height: auto;
+}
 .btn {
   display: inline-block;
   padding: .8em 1em;
@@ -699,6 +703,10 @@ header .icon-logout:hover path {
 .bets td.avatar {
   vertical-align: top;
   width: 90px;
+}
+.bets td.avatar img {
+  min-width: auto;
+  height: auto;
 }
 .bets td.details {
   padding-left: 1.5em;

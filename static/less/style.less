@@ -57,6 +57,11 @@ img, svg {
 	.responsive;
 }
 
+.no-responsive {
+	min-width:auto;
+	height:auto;
+}
+
 .btn {
 	display:inline-block;
 	padding:.8em 1em;
@@ -559,6 +564,10 @@ header {
 		&.avatar {
 			vertical-align:top;
 			width:90px;
+			
+			img {
+				.no-responsive;
+			}
 		}
 		
 		&.details {
