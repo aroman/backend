@@ -668,7 +668,7 @@ header .icon-logout:hover path {
 }
 .design .conditions a {
   height: auto;
-  padding: 4em 0;
+  padding: 4em 1em;
   border: 3px solid #c3c3c3;
   text-align: center;
 }
