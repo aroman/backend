@@ -138,7 +138,7 @@ def actually_create_bet(bet_object):
 @app.route("/shake/<int:bet_id>", methods=['POST'])
 def shake_propose(bet_id):
     pebble_token = request.form['pebble_token']
-    bet_amount = request.form['bet_amount']
+    bet_amount = int(request.form['bet_amount'])
     now = datetime.datetime.utcnow()
 
     already_in = False
