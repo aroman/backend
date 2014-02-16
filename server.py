@@ -119,6 +119,12 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+@app.route("/nuke", methods=['GET'])
+def nuke():
+    mongo.db.users.remove({"_id": session["venmo_id"]})
+    return redirect(url_for('logout'))
+
+
 shakes_in_progress = []
 
 def remove_duplicates(lst):
