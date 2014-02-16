@@ -201,12 +201,12 @@ def actually_create_bet(bet_object):
     pp(accepter_from_db)
     if bet_object['bet_id'] == 100:
         # Hard code: proposer wins
-        actual_charge = -bet_object['bet_amount']
+        actual_charge = bet_object['bet_amount']
         venmo_note = "%s won a bet with %s!" % (proposer_from_db['firstname'], accepter_from_db['firstname'])
         proposer_won = True
     elif bet_object['bet_id'] == 200:
         # Hard code: proposer loses
-        actual_charge = bet_object['bet_amount']
+        actual_charge = -bet_object['bet_amount']
         venmo_note = "%s lost a bet with %s!" % (accepter_from_db['firstname'], proposer_from_db['firstname'])
         proposer_won = False
     elif bet_info['kind'] == 'grepurl':
