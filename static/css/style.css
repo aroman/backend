@@ -300,6 +300,14 @@ svg {
   background-color: #c3c3c3;
   color: #fff !important;
 }
+.tag.active {
+  border-color: #36c340;
+  color: #36c340 !important;
+}
+.tag.active:hover {
+  color: #fff !important;
+  background-color: #36c340;
+}
 .tag-inline {
   padding: .1em .4em;
   -webkit-border-radius: 12.5px;
@@ -478,8 +486,8 @@ section {
 .select .options .platform-choice:nth-child(8n) {
   margin-right: 0;
 }
-.select .options a.disabled,
-.select .options .platform-choice.disabled {
+.select .options a.disabled img,
+.select .options .platform-choice.disabled img {
   -webkit-filter: grayscale(100%);
   -moz-filter: grayscale(100%);
   filter: grayscale(100%);
@@ -555,6 +563,9 @@ footer a {
   color: #567fe0;
   text-decoration: none;
 }
+h4 {
+  color: #666666;
+}
 /* Scaffold */
 .container {
   width: 960px;
@@ -575,6 +586,12 @@ footer a {
 .avatar-sm {
   width: 24px;
   height: 24px;
+  margin-right: 10px;
+}
+.avatar-med {
+  width: 36px;
+  height: 36px;
+  margin-right: 14px;
 }
 .icon-logout {
   width: 20px;
@@ -654,6 +671,24 @@ header .icon-logout path {
 header .icon-logout:hover path {
   fill: #909090 !important;
 }
+.stripe:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+  background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -ms-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  z-index: 1;
+  -webkit-background-size: 50px 50px;
+  -moz-background-size: 50px 50px;
+  background-size: 50px 50px;
+  overflow: hidden;
+}
 .bets td {
   height: 90px;
   padding: 1.5em 0;
@@ -662,6 +697,7 @@ header .icon-logout:hover path {
   text-decoration: none;
 }
 .bets td.avatar {
+  vertical-align: top;
   width: 90px;
 }
 .bets td.details {
@@ -682,6 +718,130 @@ header .icon-logout:hover path {
 }
 .bets td.bet {
   text-align: right;
+}
+.bets .recommendations {
+  *zoom: 1;
+}
+.bets .recommendations .bet {
+  vertical-align: top;
+}
+.bets .recommendations:before,
+.bets .recommendations:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.bets .recommendations:after {
+  clear: both;
+}
+.bets .recommendations .title {
+  *zoom: 1;
+}
+.bets .recommendations .title:before,
+.bets .recommendations .title:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.bets .recommendations .title:after {
+  clear: both;
+}
+.bets .recommendations .title span {
+  float: left;
+  margin-top: 3px;
+  font-weight: bold;
+}
+.bets .recommendations .title .avatar {
+  float: left;
+}
+.bets .recommendations .title .chance {
+  float: right;
+  color: #666666;
+  font-size: .8em;
+  font-weight: bold;
+  margin-top: 7px;
+}
+.bets .recommendations .bar {
+  width: 100%;
+  height: 36px;
+  *zoom: 1;
+  position: relative;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background-color: #f05252;
+  float: left;
+}
+.bets .recommendations .bar:before,
+.bets .recommendations .bar:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.bets .recommendations .bar:after {
+  clear: both;
+}
+.bets .recommendations .bar .area {
+  float: left;
+  display: block;
+  height: 100%;
+  position: relative;
+  background-color: #36c340;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  top: -4px;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+.bets .recommendations .bar .area:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+  background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -ms-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  z-index: 1;
+  -webkit-background-size: 50px 50px;
+  -moz-background-size: 50px 50px;
+  background-size: 50px 50px;
+  overflow: hidden;
+}
+.bets .recommendations .bar .value {
+  position: absolute;
+  right: 12px;
+  top: 6px;
+  color: #fff;
+  font-weight: bold;
+  z-index: 5;
+}
+.bets .recommendations ul {
+  margin-bottom: 0;
+  padding: 0;
+}
+.bets .recommendations ul li {
+  *zoom: 1;
+  display: block;
+  clear: both;
+  list-style: none;
+  margin-bottom: 1em;
+}
+.bets .recommendations ul li:before,
+.bets .recommendations ul li:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.bets .recommendations ul li:after {
+  clear: both;
 }
 .design .conditions {
   display: none;
@@ -870,6 +1030,17 @@ footer {
   display: inline-block;
   margin: 0 .5em;
   position: relative;
+  *zoom: 1;
+  clear: both;
+}
+.feed ul .user:before,
+.feed ul .user:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.feed ul .user:after {
+  clear: both;
 }
 .feed ul .user .avatar-sm {
   float: left;
