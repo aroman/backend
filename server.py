@@ -5,6 +5,7 @@ import random
 import pusher
 import datetime
 import requests
+import sendgrid
 import funcy
 from functools import wraps
 from flask_oauth import OAuth
@@ -37,6 +38,9 @@ mongo = PyMongo(app)
 #     consumer_key='7DEWbqXHmfrZGz9LMtIIgA',
 #     consumer_secret='1Qt315xblwCCDbsSWRN2jaYCZzzsM6wACZrtPTyXWs'
 # )
+# 
+# request_token, request_token_secret = twitter.get_request_token()
+# authorize_url = twitter.get_authorize_url(request_token)
 
 p = pusher.Pusher(
   app_id='66156',
@@ -68,6 +72,27 @@ def login_required(f):
             return f(*args, **kwargs)
     return decorated_function
 
+def tweet(message, other_person, tweet, twitter):
+    body = "I just challenged @" + other_person + " to see " + message# + " at @PennApps #BetsOn"
+    # url = "https://api.twitter.com/1/statuses/update.json"
+    data = {"status" : body}
+    resp = twitter.post('statuses/update.json', data=data)
+    if resp.status == 403:
+        print 'Your tweet was too long.'
+    elif resp.status == 401:
+        print 'Authorization error with Twitter.'
+    else:
+        print 'Successfully tweeted your tweet (ID: #%s)' % resp.data['id']
+        return True
+    return False
+
+def send_email(txt, to):
+    s = sendgrid.Sendgrid('jzone3', 'beta-code', secure=True)
+    # s = sendgrid.Sendgrid('betson', 'betsonbetsoff1', secure=True)
+    message = sendgrid.Message(("info@betsonapp.com", "BetsOn Team"), "Your new bet!", txt)
+    message.add_to(to)
+    s.web.send(message)
+
 @app.route("/")
 def index():
     pp(session)
@@ -94,9 +119,47 @@ def logout():
 
 shakes_in_progress = []
 
+def actually_create_bet(bet_object):
+    pp(bet_object)
+    proposer_from_db = mongo.db.users.find_one({"pebble_token": bet_object['proposer_token']})
+    accepter_from_db = mongo.db.users.find_one({"pebble_token": bet_object['accepter_token']})
+    if bet_object['bet_id'] == 100:
+        # Hard code: proposer wins
+        actual_charge = bet_object['bet_amount']
+        venmo_note = "%s won a bet with %s!" % (proposer_from_db['firstname'], accepter_from_db['firstname'])
+        proposer_won = True
+    elif bet_object['bet_id'] == 200:
+        # Hard code: proposer loses
+        actual_charge = -bet_object['bet_amount']
+        venmo_note = "%s lost a bet with %s!" % (accepter_from_db['firstname'], proposer_from_db['firstname'])
+        proposer_won = False
+    else:
+        err = "ERROR: Unknown bet ID!"
+        return err
+    mongo_res = mongo.db.bets.insert({
+        "proposer": proposer_from_db['_id'],
+        "accepter": accepter_from_db['_id'],
+        "amount": bet_object['amount'],
+        "timestamp": bet_object['timestamp'],
+        "proposer_won": proposer_won 
+    })
+    pp(mongo_res)
+    url = "https://api.venmo.com/payments"
+    data = {
+        "access_token": proposer_from_db['access_token'],
+        "user_id": accepter_from_db['venmo_id'],
+        "note": "%s (via BetsOn)" % venmo_note,
+        "amount": actual_charge 
+    }
+    pp(data)
+    response = requests.post(url, data)
+    pp(response.json())
+    return "OK" 
+
 @app.route("/shake/<bet_id>", methods=['POST'])
 def shake_propose(bet_id):
     pebble_token = request.form['pebble_token']
+    bet_amount = request.form['bet_amount']
     now = datetime.datetime.utcnow()
 
     already_in = False
@@ -107,13 +170,25 @@ def shake_propose(bet_id):
         if 'accept_time' in shake:
             delta = (now - shake['accept_time']).seconds
             if delta < MATCHMAKING_TIMEOUT:
+                actually_create_bet({
+                    "bet_id": bet_id,
+                    "bet_amount": bet_amount,
+                    "timestamp": now,
+                    "proposer_token": pebble_token,
+                    "accepter_token": shake['accepter_token'],
+                })
                 shakes_in_progress.remove(shake)
+                send_email("You just created a bet to see who has more twitter followers for $200", "jarzon@bergen.org")
+                tweet("who has more twitter followers", "personsTwitter")
+                print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
     if already_in:
         return "Already advertised, updated timestamp"
     else:
         to_append = {
             "proposer_token": pebble_token,
+            "bet_amount": bet_amount,
+            "bet_id": bet_id,
             "propose_time": now 
         }
         shakes_in_progress.append(to_append)
@@ -134,7 +209,17 @@ def shake_accept():
         if 'propose_time' in shake:
             delta = (now - shake['propose_time']).seconds
             if delta < MATCHMAKING_TIMEOUT:
+                actually_create_bet({
+                    "bet_id": shake['bet_id'],
+                    "bet_amount": shake['bet_amount'],
+                    "timestamp": now,
+                    "proposer_token": shake['proposer_token'],
+                    "accepter_token": pebble_token,
+                })
                 shakes_in_progress.remove(shake)
+                send_email("You just created a bet to see who has more twitter followers for $200", "jarzon@bergen.org")
+                tweet("who has more twitter followers", "personsTwitter")
+                print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
     if already_in:
         return "Already advertised, updated timestamp"
@@ -207,6 +292,7 @@ def setup():
                 "email": user_from_oauth['email'],
                 "picture": user_from_oauth['picture']
             })
+            send_email("Welcome to BetsOn!\n- The BetsOn Team", user_from_oauth['email'])
 
         session['venmo_id'] = user_from_oauth['id']
         session['email'] = user_from_oauth['email']
@@ -221,8 +307,10 @@ def setup():
 
 @app.route("/bets", methods=['GET', 'POST'])
 def bets():
-    # pebble_token = request.form['pebble_token']
-    bets_data = [{"label": "twitter", "id": 123, "description": "My most recent Facebook post will get more likes!"}]
+    pebble_token = request.form['pebble_token']
+
+    bets_data = [{"label": "testbet", "id": 100, "description": "Proposer will always win!"},
+    {"label": "testbet", "id": 200, "description": "Proposer will always win!"}]
     return jsonify(bets=bets_data)
 
 @app.route("/win", methods=['GET'])
