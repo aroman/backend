@@ -220,6 +220,7 @@ body {
 }
 .a2 {
   color: #567fe0;
+  text-decoration: none;
 }
 .responsive {
   min-width: 100%;
@@ -510,8 +511,10 @@ header a {
 header a:hover {
   color: #567fe0;
 }
-.content a {
+.content a,
+footer a {
   color: #567fe0;
+  text-decoration: none;
 }
 /* Scaffold */
 .container {
@@ -793,6 +796,12 @@ header .icon-logout:hover path {
   overflow: hidden;
   width: 100%;
   height: 100%;
+}
+footer {
+  padding: 1em 0 2.5em 0;
+  text-align: center;
+  color: #666666;
+  font-size: .8em;
 }
 /* Animations */
 @keyframes pairIn {
