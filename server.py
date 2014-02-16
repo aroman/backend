@@ -94,9 +94,14 @@ def logout():
 
 shakes_in_progress = []
 
+def actually_create_bet(bet_object):
+    pp(bet_object)
+    return "" 
+
 @app.route("/shake/<bet_id>", methods=['POST'])
 def shake_propose(bet_id):
     pebble_token = request.form['pebble_token']
+    bet_amount = request.form['bet_amount']
     now = datetime.datetime.utcnow()
 
     already_in = False
@@ -107,6 +112,12 @@ def shake_propose(bet_id):
         if 'accept_time' in shake:
             delta = (now - shake['accept_time']).seconds
             if delta < MATCHMAKING_TIMEOUT:
+                actually_create_bet({
+                    "bet_id": bet_id,
+                    "bet_amount": bet_amount,
+                    "proposer_token": pebble_token,
+                    "accepter_token": shake['accepter_token'],
+                })
                 shakes_in_progress.remove(shake)
                 print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
@@ -115,6 +126,8 @@ def shake_propose(bet_id):
     else:
         to_append = {
             "proposer_token": pebble_token,
+            "bet_amount": bet_amount,
+            "bet_id": bet_id,
             "propose_time": now 
         }
         shakes_in_progress.append(to_append)
@@ -135,6 +148,12 @@ def shake_accept():
         if 'propose_time' in shake:
             delta = (now - shake['propose_time']).seconds
             if delta < MATCHMAKING_TIMEOUT:
+                actually_create_bet({
+                    "bet_id": shake['bet_id'],
+                    "bet_amount": shake['bet_amount'],
+                    "proposer_token": shake['proposer_token'],
+                    "accepter_token": pebble_token,
+                })
                 shakes_in_progress.remove(shake)
                 print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
