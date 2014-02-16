@@ -478,6 +478,12 @@ section {
 .select .options .platform-choice:nth-child(8n) {
   margin-right: 0;
 }
+.select .options a.disabled,
+.select .options .platform-choice.disabled {
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
 .select .options a.disabled:after,
 .select .options .platform-choice.disabled:after {
   content: '';

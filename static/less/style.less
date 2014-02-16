@@ -272,7 +272,11 @@ section {
 			color:@light;
 			text-decoration:none;
 			
-			&.disabled {
+			&.disabled {-webkit-filter: grayscale(100%);
+
+-moz-filter: grayscale(100%);
+
+filter: grayscale(100%);
 				&:after {
 					content:'';
 					display:block;
