@@ -197,7 +197,7 @@ def shake_accept():
                 print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
     if already_in:
-        return "Already advertised, updated timestamp"
+        print "Already advertised, updated timestamp"
     else:
         to_append = {
             "accepter_token": pebble_token,
@@ -283,8 +283,8 @@ def setup():
 def bets():
     pebble_token = request.form['pebble_token']
 
-    bets_data = [{"label": "testbet", "id": 100, "description": "Proposer will always win!"},
-    {"label": "testbet", "id": 200, "description": "Proposer will always win!"}]
+    bets_data = [{"label": "propwin", "id": 100, "description": "Proposer will always win!"},
+    {"label": "proplose", "id": 200, "description": "Proposer will always win!"}]
     return jsonify(bets=bets_data)
 
 @app.route("/win", methods=['GET'])
