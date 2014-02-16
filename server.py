@@ -95,9 +95,12 @@ def logout():
 shakes_in_progress = []
 
 def actually_create_bet(bet_object):
+    print "In actually_create_bet!"
     pp(bet_object)
     proposer_from_db = mongo.db.users.find_one({"pebble_token": bet_object['proposer_token']})
     accepter_from_db = mongo.db.users.find_one({"pebble_token": bet_object['accepter_token']})
+    pp(proposer_from_db)
+    pp(accepter_from_db)
     if bet_object['bet_id'] == 100:
         # Hard code: proposer wins
         actual_charge = bet_object['bet_amount']
