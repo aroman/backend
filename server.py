@@ -194,7 +194,7 @@ def setup():
     else:
         return "Error"
 
-@app.route("/bets", methods=['GET'])
+@app.route("/bets", methods=['GET', 'POST'])
 def bets():
     # pebble_token = request.form['pebble_token']
     bets_data = [{"label": "twitter", "id": 123, "description": "My most recent Facebook post will get more likes!"}]
