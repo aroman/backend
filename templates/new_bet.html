@@ -19,18 +19,10 @@
 				</hgroup>
 				<div class="inner select">
 					<div class="platforms options">
-						<a href="#">
-							<img src="{{ url_for('static', filename='img/platform-hn.png') }}" alt="Hacker News" />
-						</a>
-						<a href="#">
-							<img src="{{ url_for('static', filename='img/platform-twitter.png') }}" alt="Twitter" />
-						</a>
-						<a href="#">
-							<img src="{{ url_for('static', filename='img/platform-reddit.png') }}" alt="Reddit" />
-						</a>
-						<a href="#">
-							<img src="{{ url_for('static', filename='img/platform-custom.png') }}" alt="Custom" />
-						</a>
+						<img id="hackernews" class="platform-choice" src="{{ url_for('static', filename='img/platform-hn.png') }}" alt="Hacker News" />
+						<img id="twitter"  class="platform-choice" src="{{ url_for('static', filename='img/platform-twitter.png') }}" alt="Twitter" />
+						<img id="reddit"  class="platform-choice" src="{{ url_for('static', filename='img/platform-reddit.png') }}" alt="Reddit" />
+						<img id="custom"  class="platform-choice" src="{{ url_for('static', filename='img/platform-custom.png') }}" alt="Custom" />
 					</div>
 				</div>
 			</section>
@@ -101,6 +93,9 @@
 			<div class="submit">
 				<a href="#" class="btn btn-primary btn-lg">Save this Bet</a>
 			</div>
+			<script>
+				$("#hackernews").click)
+			</script>
 		</div>
 	</div>
 </div>

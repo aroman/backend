@@ -7,6 +7,7 @@ import datetime
 import requests
 import funcy
 from functools import wraps
+from flask_oauth import OAuth
 from pprint import pprint as pp
 from flask.ext.pymongo import PyMongo
 from flask import Flask, request, render_template, redirect, url_for, session, jsonify, g
@@ -16,6 +17,9 @@ VENMO_OAUTH_CLIENT_SECRET = "kS6Xwrd9rzzkSd3C2BcjhJFMAxH3Kv3P"
 VENMO_ACCESS_TOKEN = "eSN3Z3A2KeRbcnNTqgLu6mRA4K9uED9V"
 VENMO_OAUTH_URL = "https://venmo.com/oauth/authorize?client_id=%s&scope=make_payments,access_profile,access_phone,access_friends,access_balance&response_type=code" % VENMO_OAUTH_CLIENT_ID
 
+TWITTER_OAUTH_URL = "https://api.twitter.com/oauth/authorize"
+
+
 MATCHMAKING_TIMEOUT = 5 # seconds
 
 app = Flask(__name__)
@@ -23,12 +27,33 @@ app.config['MONGO_URI'] = "mongodb://ludacris:moneymaker@ds033499.mongolab.com:3
 app.secret_key = 'zgzQQCCn50mDwScfOyQ9'
 app.debug = True
 mongo = PyMongo(app)
+# oauth = OAuth()
+
+# twitter = oauth.remote_app('twitter',
+#     base_url='https://api.twitter.com/1/',
+#     request_token_url='https://api.twitter.com/oauth/request_token',
+#     access_token_url='https://api.twitter.com/oauth/access_token',
+#     authorize_url='https://api.twitter.com/oauth/authenticate',
+#     consumer_key='7DEWbqXHmfrZGz9LMtIIgA',
+#     consumer_secret='1Qt315xblwCCDbsSWRN2jaYCZzzsM6wACZrtPTyXWs'
+# )
 
 p = pusher.Pusher(
   app_id='66156',
   key='e4bab17358b4582eb567',
   secret='e5e8da723ba71f683933'
 )
+
+# @app.route("/setup")
+# def setup():
+#     oauth_code = request.args.get('code')
+#     if oauth_code:
+#         url = "https://api.venmo.com/oauth/access_token"
+#         data = {
+#             "client_id": VENMO_OAUTH_CLIENT_ID,
+#             "client_secret": VENMO_OAUTH_CLIENT_SECRET,
+#             "code": oauth_code
+#         }
 
 def logged_in():
     return ("venmo_id" in session) and mongo.db.users.find_one(session['venmo_id'])
