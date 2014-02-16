@@ -294,7 +294,6 @@ def setup():
                 "firstname": user_from_oauth['firstname'],
                 "lastname": user_from_oauth['lastname'],
                 "username": user_from_oauth['username'],
-                "created_bets": [],
                 "pair_token": ''.join(random.choice(string.digits) for x in range(6)),
                 "email": user_from_oauth['email'],
                 "picture": user_from_oauth['picture']
@@ -317,14 +316,15 @@ def bets():
     pebble_token = request.form['pebble_token']
 
     user_from_db = mongo.db.users.find_one({"pebble_token": pebble_token})
-    pp(user_from_db['created_bets'])
+    users_bets = mongo.db.user_bets.find({ "creator": user_from_db['_id'] })
+    pp(user_from_db)
 
     da_bets = []
-    for created_bet in user_from_db['created_bets']:
+    for user_bet in users_bets:
         da_bets.append({
-            "label": created_bet['label'],
-            "description": created_bet['kind'],
-            "id": created_bet['_id']
+            "label": user_bet['label'],
+            "description": user_bet['kind'],
+            "id": user_bet['_id']
         })
     pp(da_bets)
     bets_data = [{"label": "propwin", "id": 100, "description": "Proposer will always win!"},
@@ -352,14 +352,14 @@ def new_bet():
     if request.method == 'POST':
         if request.form['platform'] == 'custom':
             if request.form['time'] == 'now':
-                to_append = {
+                mongo_res = mongo.db.user_bets.insert({
                     "creator": session['venmo_id'],
                     "kind": "grepurl",
                     "url": request.form['url'],
                     "label": request.form['name'],
-                    "string": request.form['string'],
-                }
-                mongo_res = mongo.db.users.update({"_id": session['venmo_id']}, {"$push": { "created_bets": to_append }})
+                    "string": request.form['string']
+                })
+                # mongo_res = mongo.db.users.update({"_id": session['venmo_id']}, {"$push": { "created_bets": to_append }})
                 pp(mongo_res)
 
         return "Ok"
