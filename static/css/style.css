@@ -231,6 +231,10 @@ svg {
   min-width: 100%;
   height: 100%;
 }
+.no-responsive {
+  min-width: auto;
+  height: auto;
+}
 .btn {
   display: inline-block;
   padding: .8em 1em;
@@ -278,6 +282,9 @@ svg {
 .outlined {
   border: 3px solid #c3c3c3;
 }
+.outlined.active {
+  border-color: #36c340;
+}
 .tag {
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
@@ -292,6 +299,9 @@ svg {
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
+}
+.tag.active {
+  border-color: #36c340;
 }
 .tag:first-child {
   margin-left: 0;
@@ -397,6 +407,9 @@ hgroup.mid .order {
   width: 1em;
   height: 1em;
   padding: .25em .5em .7em;
+}
+hgroup.mid .order.active {
+  border-color: #36c340;
 }
 table {
   width: 100%;
@@ -700,6 +713,14 @@ header .icon-logout:hover path {
   vertical-align: top;
   width: 90px;
 }
+.bets td.avatar a {
+  width: inherit;
+}
+.bets td.avatar img {
+  min-width: auto;
+  height: auto;
+  width: inherit;
+}
 .bets td.details {
   padding-left: 1.5em;
 }
@@ -847,14 +868,18 @@ header .icon-logout:hover path {
   display: none;
 }
 .design .conditions a {
+  outline: none;
   height: auto;
   padding: 4em 1em;
   border: 3px solid #c3c3c3;
   text-align: center;
 }
+.design .conditions a.active {
+  border-color: #36c340;
+}
 .design .conditions a:hover {
   outline: none;
-  border-color: #fff000;
+  border-color: #36c340;
 }
 .design .variables {
   font-size: 32px;

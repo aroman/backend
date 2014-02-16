@@ -136,13 +136,13 @@
 
 
 <script>
-$('.bar').each(function() {
-	var value = $(this).attr('data-value');
-	console.log(value);
+	$('.bar').each(function() {
+		var value = $(this).attr('data-value');
+		console.log(value);
 	
-	$(this).children('.area').css({ 'width' : 0 });
-	$(this).children('.area').animate({ 'width' : value + '%' });
-});
+		$(this).children('.area').css({ 'width' : 0 });
+		$(this).children('.area').animate({ 'width' : value + '%' });
+	});
 </script>
 
 {% endblock %}
