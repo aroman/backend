@@ -118,7 +118,7 @@ def actually_create_bet(bet_object):
     mongo_res = mongo.db.bets.insert({
         "proposer": proposer_from_db['_id'],
         "accepter": accepter_from_db['_id'],
-        "amount": bet_object['amount'],
+        "amount": bet_object['bet_amount'],
         "timestamp": bet_object['timestamp'],
         "proposer_won": proposer_won 
     })
