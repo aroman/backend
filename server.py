@@ -121,6 +121,60 @@ def logout():
 
 shakes_in_progress = []
 
+def find_site(name):
+    links = []
+    good_links = []
+    url = "http://google.com/search?q=" + str(name)
+    r = requests.get(url=url)
+
+    res = r.text
+    res_list = res.split("&amp;")
+    for link in res_list:
+        if 'href="/url?q=' in link:
+            link = link.split('href="/url?q=')[1]
+            if 'googleusercontent' not in link:
+                links.append(link)
+    for link in links:
+        if not (link[-1:] == "/" and link.count("/") > 3) and not (link[-1:] != "/" and link.count("/") > 2):
+            good_links.append(link)
+
+    return remove_duplicates(good_links)
+
+def is_in(site, item):
+    item = item.lower()
+    url = find_site(site)[0]
+    x = requests.get(url).text.lower()
+    if not ">" + item + "<" in x and not " " + item + " " in x:
+        print x
+        return False
+    parts = x.split(" " + item + " ")
+    if len(parts) < 2:
+        parts = x.split(">" + item + "<")
+        if len(parts) < 2:
+            return False
+    first = parts[0].split(" ")[-1]
+    if ">" in first:
+        first = first.split(">")[-1]
+    elif '"' in first:
+        first = first.split('"')[-1]
+    second = parts[1].split(" ")[0]
+    if "<" in second:
+        second = second.split("<")[0]
+    elif '"' in second:
+        second = second.split('"')[-1]
+    to_return = first + " " + item + " " + second
+    to_return = to_return.replace("&nbsp;", " ")
+    to_return = to_return.strip()
+    if to_return[-1] == ">" or to_return[-1] == "<":
+        to_return = to_return[:-1]
+    if to_return[-1] == '"' or to_return[-1] == "'":
+        to_return = to_return[:-1]
+    if to_return[0] == ">" or to_return[0] == "<":
+        to_return = to_return[1:]
+    if to_return[0] == '"' or to_return[0] == "'":
+        to_return = to_return[1:]
+    return to_return
+
 def actually_create_bet(bet_object):
     print "In actually_create_bet!"
     pp(bet_object)
@@ -141,6 +195,15 @@ def actually_create_bet(bet_object):
         actual_charge = bet_object['bet_amount']
         venmo_note = "%s lost a bet with %s!" % (accepter_from_db['firstname'], proposer_from_db['firstname'])
         proposer_won = False
+    elif bet_info['kind'] == 'grepurl':
+        if is_in(bet_info['url'], bet_info['string']):
+            actual_charge = -bet_object['bet_amount']
+            venmo_note = "%s won a bet with %s!" % (proposer_from_db['firstname'], accepter_from_db['firstname'])
+            proposer_won = True
+        else:
+            actual_charge = bet_object['bet_amount']
+            venmo_note = "%s lost a bet with %s!" % (accepter_from_db['firstname'], proposer_from_db['firstname'])
+            proposer_won = False
     else:
         err = "ERROR: Unknown bet ID!"
         pp(err)
