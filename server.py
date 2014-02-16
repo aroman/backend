@@ -121,6 +121,17 @@ def logout():
 
 shakes_in_progress = []
 
+def remove_duplicates(lst):
+    already_in = {}
+    new = []
+    for i in lst:
+        try:
+            already_in[i]
+        except KeyError:
+            new.append(i)
+            already_in[i] = 5
+    return new
+
 def find_site(name):
     links = []
     good_links = []
