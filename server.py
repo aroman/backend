@@ -113,6 +113,7 @@ def actually_create_bet(bet_object):
         proposer_won = False
     else:
         err = "ERROR: Unknown bet ID!"
+        pp(err)
         return err
     mongo_res = mongo.db.bets.insert({
         "proposer": proposer_from_db['_id'],
