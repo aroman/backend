@@ -197,7 +197,7 @@ def setup():
 @app.route("/bets", methods=['GET'])
 @login_required
 def bets():
-    request.form.pebble_token
+    # pebble_token = request.form['pebble_token']
     bets_data = [{"title": "twitter", "subtitle": "My most recent Facebook post will get more likes!"}]
     return jsonify(bets=bets_data)
 
