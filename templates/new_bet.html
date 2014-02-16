@@ -98,18 +98,20 @@
 				current_platform = "";
 				$(".platform-choice").click(function (e) {
 					if ($(e.target).attr('id') != current_platform) {
-						current_platform = $(e.target).attr('id') 
+						current_platform = $(e.target).attr('id'); 
 
-						$("*").removeClass("platform-chosen");
-						$(e.target).parent().addClass("platform-chosen");
-						$(".platform-choice:not(.platform-chosen)").addClass('disabled');
-						$(".platform-choice:not(.platform-chosen)").removeClass('disabled');
+						// $("*").removeClass("platform-chosen");
+						// $(".platform-choice:not(.platform-chosen)").removeClass('disabled');
+
+						// $(e.target).parent().addClass("platform-chosen");
+						// $(".platform-choice:not(.platform-chosen)").addClass('disabled');
 
 						$("#choose-win-condition").fadeIn();
+						$(".conditions").hide();
 						$('#' + current_platform + "-conditions").show();
 						setTimeout(function () {
 							$('html, body').animate({
-							        scrollTop: $("#choose-platform").offset().top
+							        scrollTop: $("#choose-platform").offset().top - 10
 						    }, 1000);
 						}, 250);
 					} else {
