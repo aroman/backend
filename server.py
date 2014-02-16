@@ -127,7 +127,7 @@ def actually_create_bet(bet_object):
     data = {
         "access_token": proposer_from_db['access_token'],
         "user_id": accepter_from_db['_id'],
-        "note": "%s (via BetsOn)" % venmo_note,
+        "note": "%s @ %s (via BetsOn)" % (venmo_note, str(datetime.datetime.now())),
         "amount": actual_charge 
     }
     pp(data)
