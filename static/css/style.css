@@ -704,9 +704,13 @@ header .icon-logout:hover path {
   vertical-align: top;
   width: 90px;
 }
+.bets td.avatar a {
+  width: inherit;
+}
 .bets td.avatar img {
   min-width: auto;
   height: auto;
+  width: inherit;
 }
 .bets td.details {
   padding-left: 1.5em;
