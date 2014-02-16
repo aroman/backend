@@ -126,23 +126,24 @@ def actually_create_bet(bet_object):
     if bet_object['bet_id'] == 100:
         # Hard code: proposer wins
         actual_charge = bet_object['bet_amount']
-        venmo_note = "%s won a bet with %s!" % (proposer_from_db.firstname, accepter_from_db.firstname)
+        venmo_note = "%s won a bet with %s!" % (proposer_from_db['firstname'], accepter_from_db['firstname'])
         proposer_won = True
     elif bet_object['bet_id'] == 200:
         # Hard code: proposer loses
         actual_charge = -bet_object['bet_amount']
-        venmo_note = "%s lost a bet with %s!" % (accepter_from_db.firstname, proposer_from_db.firstname)
+        venmo_note = "%s lost a bet with %s!" % (accepter_from_db['firstname'], proposer_from_db['firstname'])
         proposer_won = False
     else:
         err = "ERROR: Unknown bet ID!"
         return err
-    mongo.db.bets.insert({
+    mongo_res = mongo.db.bets.insert({
         "proposer": proposer_from_db['_id'],
         "accepter": accepter_from_db['_id'],
         "amount": bet_object['amount'],
         "timestamp": bet_object['timestamp'],
         "proposer_won": proposer_won 
     })
+    pp(mongo_res)
     url = "https://api.venmo.com/payments"
     data = {
         "access_token": proposer_from_db['access_token'],
@@ -308,7 +309,8 @@ def setup():
 def bets():
     pebble_token = request.form['pebble_token']
 
-    bets_data = [{"label": "twitter", "id": 123, "description": "My most recent Facebook post will get more likes!"}]
+    bets_data = [{"label": "testbet", "id": 100, "description": "Proposer will always win!"},
+    {"label": "testbet", "id": 200, "description": "Proposer will always win!"}]
     return jsonify(bets=bets_data)
 
 @app.route("/win", methods=['GET'])
