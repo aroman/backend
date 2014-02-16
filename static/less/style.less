@@ -134,9 +134,13 @@ hgroup {
 
 hgroup.main {
 	.clearfix;
-	display:table;
 	width:100%;
 	margin:.7em 0 1.5em 0;
+	background-color:@ghost2;
+	
+	.container {
+		display:table;
+	}
 	
 	h1 {
 		float:left;
@@ -309,6 +313,8 @@ header a {
 	.a2;
 }
 
+
+
 /* Scaffold */
 
 .container {
@@ -334,8 +340,8 @@ header a {
 }
 	
 .icon-logout {
-	width:24px;
-	height:24px;
+	width:20px;
+	height:20px;
 	display:inline-block;
 }
 
@@ -343,12 +349,7 @@ header a {
 
 header {
 	.clearfix;
-	padding:2em 0;
-	background-color:@ghost2;
-	
-	.container {
-		display:table;
-	}
+	padding:.6em 0 .2em 0;
 	
 	.logo {
 		display:none;
@@ -367,18 +368,17 @@ header {
 		display:block;
 		float:left;
 		
-		margin-left:0px;
-		height:62px;
+		margin-top:7px;
+		height:44px;
 	}
 	
 	nav,.user {
-		display:table-cell;
-		vertical-align:middle;
+		float:right;
 		text-align:right;
 	}
 	
 	nav {
-		margin-right:40px;
+		margin:14px 30px 0 0;
 		
 		a {
 			padding:20px;
@@ -402,6 +402,17 @@ header {
 		margin-left:10px;
 		padding-left:5px;
 		border-left:2px solid @ghost;
+		position:relative;
+		top:4px;
+		.transition(all .3s linear);
+		
+		path {
+			.transition(all .3s linear);
+		}
+		
+		&:hover path {
+			fill:darken(@ghost, 20%) !important;
+		}
 	}
 }
 
@@ -550,20 +561,44 @@ header {
 .landing {
 	overflow:hidden;
 	text-align:center;
+	background:url(../img/landing-bg.jpg) center center no-repeat;
+	background-size:135% auto;
 	
 	.top {
-		height:73%;
-		background-color:#f5f0dc;
+		height:100%;
+		position:relative;
+		overflow:hidden;
+		color:#fff;
+		
+		.inner {
+			position:relative;
+			z-index:2;
+			-webkit-animation:landingComeIn 1s ease-in-out;
+			animation:landingComeIn 1s ease-in-out;
+		}
 		
 		.logo {
-			height:80px;
-			padding:3em 0 1em 0;
+			height:75px;
+			padding:1.5em 0 .5em 0;
 			margin:0 auto;
 		}
 		
 		span {
-			font-size:1.2em;
+			font-size:1.4em;
 			opacity:.7;
+			display:block;
+			margin-bottom:1em;
+		}
+		
+		.bg {
+			overflow:hidden;
+			position:absolute;
+			top:0;
+			left:50%;
+			top:50%;
+			margin-left:-960px;
+			margin-top:-520px;
+			z-index:1
 		}
 	}
 	
@@ -580,6 +615,35 @@ header {
 }
 
 /* Animations */
+
+
+@keyframes landingComeIn {
+	0% {
+		-webkit-transform:translate(0, -30%);
+		transform:translate(0, -30%);
+		opacity:0;
+	}
+	
+	100% {
+		-webkit-transform:translate(0, 0);
+		transform:translate(0, 0);
+		opacity:1;
+	}
+}
+
+@-webkit-keyframes landingComeIn {
+	0% {
+		-webkit-transform:translate(0, -30%);
+		transform:translate(0, -30%);
+		opacity:0;
+	}
+	
+	100% {
+		-webkit-transform:translate(0, 0);
+		transform:translate(0, 0);
+		opacity:1;
+	}
+}
 
 header.come-in {
 	-webkit-animation:headerComeIn .5s ease-in-out;

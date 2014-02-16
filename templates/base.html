@@ -20,7 +20,7 @@
 		<div class="container">
 			</a>
 			<a href="#" class="logo-text">
-				<img src="img/logo.svg" alt="BetsOn" />
+				<img src="{{ url_for('static', filename='img/logo.svg') }}" alt="BetsOn" />
 			</a>
 
 		
@@ -33,9 +33,9 @@
 				<div class="outlined">
 					<a href="#">
 						<div class="avatar avatar-sm">
-							<img src="{{ url_for('static', filename='img/temp/avatar.jpg') }}" alt="Temporary Avatar Placeholder" />
+							<img src="{{ avatar_url }}" alt="Avatar" />
 						</div>
-						Sawyer Altman
+						{{ session.firstname }} {{ session.lastname }}
 					</a>
 					<span class="icon-logout">
 						<a href="#">

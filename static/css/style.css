@@ -310,9 +310,9 @@ hgroup:after {
 }
 hgroup.main {
   *zoom: 1;
-  display: table;
   width: 100%;
   margin: .7em 0 1.5em 0;
+  background-color: #f2f2f2;
 }
 hgroup.main:before,
 hgroup.main:after {
@@ -322,6 +322,9 @@ hgroup.main:after {
 }
 hgroup.main:after {
   clear: both;
+}
+hgroup.main .container {
+  display: table;
 }
 hgroup.main h1 {
   float: left;
@@ -530,8 +533,7 @@ header a:hover {
 /* Body */
 header {
   *zoom: 1;
-  padding: 2em 0;
-  background-color: #f2f2f2;
+  padding: .6em 0 .2em 0;
 }
 header:before,
 header:after {
@@ -541,9 +543,6 @@ header:after {
 }
 header:after {
   clear: both;
-}
-header .container {
-  display: table;
 }
 header .logo {
   display: none;
@@ -559,17 +558,16 @@ header .logo * {
 header .logo-text {
   display: block;
   float: left;
-  margin-left: 0px;
-  height: 62px;
+  margin-top: 7px;
+  height: 44px;
 }
 header nav,
 header .user {
-  display: table-cell;
-  vertical-align: middle;
+  float: right;
   text-align: right;
 }
 header nav {
-  margin-right: 40px;
+  margin: 14px 30px 0 0;
 }
 header nav a {
   padding: 20px;
@@ -721,6 +719,8 @@ header .icon-logout:hover path {
 .landing {
   overflow: hidden;
   text-align: center;
+  background: url(../img/landing-bg.jpg) center center no-repeat;
+  background-size: 135% auto;
 }
 .landing .top {
   height: 100%;
