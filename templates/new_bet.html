@@ -92,7 +92,7 @@
 			</section> -->
 			
 			<div class="submit">
-				<a href="#" class="btn btn-primary btn-lg">Save this Bet</a>
+				<a href="#" id="save-bet-btn" disabled="disabled" class="btn btn-primary btn-lg">Save this Bet</a>
 			</div>
 			<script>
 				current_platform = "";
@@ -124,6 +124,7 @@
 
 				});
 				$(".condition").click (function (e) {
+					$("#save-bet-btn").prop("disabled", false);
 					var has_vars = $(e.target).data('has-vars')
 					var cond_id = $(e.target).data('cond-id')
 					$(".condition").removeClass("active");
@@ -135,7 +136,6 @@
 						$("html, body").scrollTo("#set-variable-values", 1000, {offset: {top: 10}});
 					} else {
 						// No vars
-						if ()
 					}
 					// $(".conditions").hide();
 					// $('#' + current_platform + "-conditions").show();
