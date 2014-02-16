@@ -22,6 +22,7 @@ body {
 @blue2: #789ffb;
 @green:#36c340;
 @green2:#17d525;
+@red:#f05252;
 
 @light:#666666;
 @ghost:#c3c3c3;
@@ -127,6 +128,11 @@ img, svg {
 		background-color:@ghost;
 		color:#fff !important;
 	}
+}
+
+.tag-inline {
+	padding:.1em .4em;
+	.border-radius(@br/2);
 }
 
 .fl-l {
@@ -283,6 +289,12 @@ section {
 }
 
 /* Typography */
+
+.text-sm {
+	color:@light;
+	font-size:.8em;
+	font-weight:bold;
+}
 
 h1 {
 	font-weight:100;
@@ -668,8 +680,58 @@ footer {
 }
 
 
-/* Animations */
 
+.feed {
+	
+	section {
+		margin-bottom:3em;
+	}
+	
+	ul {
+		padding-left:0;
+		
+		li {
+			padding:.5em 1em;
+			.border-radius(@brH);
+	
+			list-style:none;
+			margin-bottom:1em;
+		
+			&:nth-child(2n+1) {
+				background-color:@ghost2;
+			}
+			
+			.timestamp {
+				margin-bottom:.5em;
+				padding-top:.5em;
+			}
+		}
+		
+		.user {
+			display:inline-block;
+			margin:0 .5em;
+			position:relative;
+			
+			.avatar-sm {
+				float:left;
+			}
+			
+			&:nth-of-type(2) {
+				margin-left:0;
+			}
+		}
+		
+		.lost {
+			color:@red;
+		}
+		
+		.won {
+			color:@green;
+		}
+	}
+}
+
+/* Animations */
 
 @keyframes pairIn {
 	0% {
