@@ -260,11 +260,19 @@ svg {
 .btn.btn-primary:hover {
   background-color: #17d525;
 }
-.btn.btn-lg {
-  padding: 1.6em 3em;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
+.btn-lg,
+.tag-lg {
+  padding: 1.6em 3em !important;
+  -webkit-border-radius: 50px !important;
+  -moz-border-radius: 50px !important;
+  border-radius: 50px !important;
+}
+.btn-med,
+.tag-med {
+  padding: 1em 2em !important;
+  -webkit-border-radius: 50px !important;
+  -moz-border-radius: 50px !important;
+  border-radius: 50px !important;
 }
 .outlined {
   border: 3px solid #c3c3c3;
@@ -275,6 +283,7 @@ svg {
   border-radius: 15px;
   padding: .3em .6em;
   font-weight: bold;
+  text-decoration: none;
   border: 3px solid #c3c3c3;
   margin-left: 10px;
   color: #909090 !important;
@@ -719,6 +728,14 @@ header .icon-logout:hover path {
 }
 .paired h1 {
   font-size: 60px;
+  margin-bottom: .6em;
+}
+.paired .tag {
+  margin-left: 0;
+}
+.paired span {
+  font-size: 1.5em;
+  vertical-align: middle;
 }
 .paired.moving {
   -webkit-animation: pairIn 0.8s ease-in-out;

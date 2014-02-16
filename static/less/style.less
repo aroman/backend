@@ -88,11 +88,18 @@ img, svg {
 			background-color:@green2;
 		}
 	}
+}
 	
-	&.btn-lg {
-		padding:1.6em 3em;
-		.border-radius(@br*2);
-	}
+.btn-lg,
+.tag-lg {
+	padding:1.6em 3em !important;
+	.border-radius(@br*2) !important;
+}
+
+.btn-med,
+.tag-med {
+	padding:1em 2em !important;
+	.border-radius(@br*2) !important;
 }
 
 .outlined {
@@ -103,6 +110,7 @@ img, svg {
 	.border-radius(15px);
 	padding:.3em .6em;
 	font-weight:bold;
+	text-decoration:none;
 	
 	.outlined;
 	
@@ -560,6 +568,16 @@ header {
 .paired {
 	h1 {
 		font-size:60px;
+		margin-bottom:.6em;
+	}
+	
+	.tag {
+		margin-left:0;
+	}
+	
+	span {
+		font-size:1.5em;
+		vertical-align:middle;
 	}
 	
 	&.moving {
