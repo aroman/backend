@@ -523,8 +523,8 @@ header a:hover {
   height: 24px;
 }
 .icon-logout {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   display: inline-block;
 }
 /* Body */
@@ -589,6 +589,21 @@ header .icon-logout {
   margin-left: 10px;
   padding-left: 5px;
   border-left: 2px solid #c3c3c3;
+  position: relative;
+  top: 4px;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+header .icon-logout path {
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+header .icon-logout:hover path {
+  fill: #909090 !important;
 }
 .bets td {
   height: 90px;
@@ -708,17 +723,37 @@ header .icon-logout {
   text-align: center;
 }
 .landing .top {
-  height: 73%;
-  background-color: #f5f0dc;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+.landing .top .inner {
+  position: relative;
+  z-index: 2;
+  -webkit-animation: landingComeIn 1s ease-in-out;
+  animation: landingComeIn 1s ease-in-out;
 }
 .landing .top .logo {
-  height: 80px;
-  padding: 3em 0 1em 0;
+  height: 75px;
+  padding: 1.5em 0 .5em 0;
   margin: 0 auto;
 }
 .landing .top span {
-  font-size: 1.2em;
+  font-size: 1.4em;
   opacity: .7;
+  display: block;
+  margin-bottom: 1em;
+}
+.landing .top .bg {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  top: 50%;
+  margin-left: -960px;
+  margin-top: -520px;
+  z-index: 1;
 }
 .landing .bottom {
   height: 27%;
@@ -730,6 +765,30 @@ header .icon-logout {
   vertical-align: middle;
 }
 /* Animations */
+@keyframes landingComeIn {
+  0% {
+    -webkit-transform: translate(0, -30%);
+    transform: translate(0, -30%);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes landingComeIn {
+  0% {
+    -webkit-transform: translate(0, -30%);
+    transform: translate(0, -30%);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
 header.come-in {
   -webkit-animation: headerComeIn 0.5s ease-in-out;
   animation: headerComeIn 0.5s ease-in-out;
