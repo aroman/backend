@@ -156,7 +156,10 @@ def is_in(site, item):
     url = find_site(site)[0]
     x = requests.get(url).text.lower()
     if not ">" + item + "<" in x and not " " + item + " " in x:
-        print x
+        try:
+            print x
+        except:
+            pass
         return False
     parts = x.split(" " + item + " ")
     if len(parts) < 2:
