@@ -14,3 +14,4 @@ pusher==0.8
 pymongo==2.6.3
 requests==2.2.1
 wsgiref==0.1.2
+sendgrid==0.1.4

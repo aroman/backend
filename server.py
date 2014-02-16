@@ -5,6 +5,7 @@ import random
 import pusher
 import datetime
 import requests
+import sendgrid
 import funcy
 from functools import wraps
 from flask_oauth import OAuth
@@ -37,6 +38,9 @@ mongo = PyMongo(app)
 #     consumer_key='7DEWbqXHmfrZGz9LMtIIgA',
 #     consumer_secret='1Qt315xblwCCDbsSWRN2jaYCZzzsM6wACZrtPTyXWs'
 # )
+# 
+# request_token, request_token_secret = twitter.get_request_token()
+# authorize_url = twitter.get_authorize_url(request_token)
 
 p = pusher.Pusher(
   app_id='66156',
@@ -67,6 +71,27 @@ def login_required(f):
             g.user = mongo.db.users.find_one(session['venmo_id'])
             return f(*args, **kwargs)
     return decorated_function
+
+def tweet(message, other_person, tweet, twitter):
+    body = "I just challenged @" + other_person + " to see " + message# + " at @PennApps #BetsOn"
+    # url = "https://api.twitter.com/1/statuses/update.json"
+    data = {"status" : body}
+    resp = twitter.post('statuses/update.json', data=data)
+    if resp.status == 403:
+        print 'Your tweet was too long.'
+    elif resp.status == 401:
+        print 'Authorization error with Twitter.'
+    else:
+        print 'Successfully tweeted your tweet (ID: #%s)' % resp.data['id']
+        return True
+    return False
+
+def send_email(txt, to):
+    s = sendgrid.Sendgrid('jzone3', 'beta-code', secure=True)
+    # s = sendgrid.Sendgrid('betson', 'betsonbetsoff1', secure=True)
+    message = sendgrid.Message(("info@betsonapp.com", "BetsOn Team"), "Your new bet!", txt)
+    message.add_to(to)
+    s.web.send(message)
 
 @app.route("/")
 def index():
@@ -157,6 +182,8 @@ def shake_propose(bet_id):
                     "accepter_token": shake['accepter_token'],
                 })
                 shakes_in_progress.remove(shake)
+                send_email("You just created a bet to see who has more twitter followers for $200", "jarzon@bergen.org")
+                tweet("who has more twitter followers", "personsTwitter")
                 print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
     if already_in:
@@ -194,6 +221,8 @@ def shake_accept():
                     "accepter_token": pebble_token,
                 })
                 shakes_in_progress.remove(shake)
+                send_email("You just created a bet to see who has more twitter followers for $200", "jarzon@bergen.org")
+                tweet("who has more twitter followers", "personsTwitter")
                 print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
     if already_in:
@@ -267,6 +296,7 @@ def setup():
                 "email": user_from_oauth['email'],
                 "picture": user_from_oauth['picture']
             })
+            send_email("Welcome to BetsOn!\n- The BetsOn Team", user_from_oauth['email'])
 
         session['venmo_id'] = user_from_oauth['id']
         session['email'] = user_from_oauth['email']
