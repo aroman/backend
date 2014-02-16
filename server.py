@@ -48,10 +48,15 @@ def index():
     pp(session)
     if logged_in():
         user_from_db = mongo.db.users.find_one(session['venmo_id'])
-        return render_template('index.html',
-                logged_in=True,
-                pair_token=user_from_db['pair_token'],
-                VENMO_OAUTH_URL=VENMO_OAUTH_URL)
+        if user_from_db['pair_token']:
+            return render_template('connect.html',
+                    logged_in=False,
+                    pair_token=user_from_db['pair_token'],
+                    VENMO_OAUTH_URL=VENMO_OAUTH_URL)
+        else:
+            return render_template('homepage.html',
+                    logged_in=True,
+                    VENMO_OAUTH_URL=VENMO_OAUTH_URL)
 
     return render_template('index.html',
             logged_in=False,
@@ -117,7 +122,6 @@ def shake_accept():
         return "Not listed; advertised"
     pp(shakes_in_progress)
 
-
 @app.route("/pair/<pair_token>", methods=['POST'])
 def pair(pair_token):
     pp(shakes_in_progress)
@@ -174,7 +178,7 @@ def setup():
                 "firstname": user_from_oauth['firstname'],
                 "lastname": user_from_oauth['lastname'],
                 "username": user_from_oauth['username'],
-                "pair_token": ''.join(random.choice(string.ascii_lowercase) for x in range(6)),
+                "pair_token": ''.join(random.choice(string.digits) for x in range(6)),
                 "email": user_from_oauth['email'],
                 "picture": user_from_oauth['picture']
             })
@@ -190,13 +194,25 @@ def setup():
     else:
         return "Error"
 
-
 @app.route("/bets", methods=['GET'])
 @login_required
 def bets():
     request.form.pebble_token
     bets_data = [{"title": "twitter", "subtitle": "My most recent Facebook post will get more likes!"}]
     return jsonify(bets=bets_data)
+
+@app.route("/win", methods=['GET'])
+def win():
+    url = "https://api.venmo.com/payments"
+    data = {
+        "access_token": hero['access_token'],
+        "user_id": participant['venmo_id'],
+        "note": "%s (via GrubHero)" % meal['name'],
+        "amount": -total
+    }
+    pp(data)
+    response = requests.post(url, data)
+    pp(response.json())
 
 @app.route("/bets/new", methods=['GET', 'POST'])
 @login_required

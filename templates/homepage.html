@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+	<div class="container">
+		<hgroup class="main">
+			<h1>My Bets</h1>
+			<div class="offside">
+				<a href="#" class="btn btn-secondary">
+					+ Create a New Bet
+				</a>
+			</div>
+		</hgroup>
+		
+		<div class="bets">
+			<section>
+				<hgroup class="mid">
+					<h2>Currently Active</h2>
+					<a href="#" class="icon-collapse"></a>
+				</hgroup>
+				<table>
+					<tr>
+						<td class="avatar">
+							<a href="#"><img src="{{ url_for('static', filename='img/platform-flappy.jpg') }}" alt="Flappy Bird" class="img-int" /></a>
+						</td>
+						<td class="details">
+							<h3><a href="#"><strong>$20:</strong> Flappy Bird Awsum Contest</a></h3>
+							<div class="tags">
+								<a href="#" class="tag">Flappy Bird</a>
+								<a href="#" class="tag">5 Wins, 2 Losses</a>
+							</div>
+						</td>
+						<td class="bet">
+						</td>
+					</tr>
+				</table>
+			</section>
+
+			<section>
+				<hgroup class="mid">
+					<h2>Available</h2>
+					<a href="#" class="icon-collapse"></a>
+				</hgroup>
+				<table>
+					<tr>
+						<td class="avatar">
+							<a href="#"><img src="{{ url_for('static', filename='img/platform-flappy.jpg') }}" alt="Flappy Bird" class="img-int" /></a>
+						</td>
+						<td class="details">
+							<h3><a href="#"><strong>$20:</strong> Flappy Bird Awsum Contest</a></h3>
+							<div class="tags">
+								<a href="#" class="tag">Flappy Bird</a>
+								<a href="#" class="tag">5 Wins, 2 Losses</a>
+							</div>
+						</td>
+						<td class="bet">
+							<a href="#" class="btn">
+								Bet On It
+							</a>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="avatar">
+							<a href="#"><img src="{{ url_for('static', filename='img/platform-flappy.jpg') }}" alt="Flappy Bird" class="img-int" /></a>
+						</td>
+						<td class="details">
+							<h3><a href="#"><strong>$20:</strong> Flappy Bird Awsum Contest</a></h3>
+							<div class="tags">
+								<a href="#" class="tag">Flappy Bird</a>
+								<a href="#" class="tag">5 Wins, 2 Losses</a>
+							</div>
+						</td>
+						<td class="bet">
+							<a href="#" class="btn">
+								Bet On It
+							</a>
+						</td>
+					</tr>
+				</table>
+			</section>
+		</div>
+	</div>
+</div>
+<script>
+</script>
+{% endblock %}
