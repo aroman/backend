@@ -422,7 +422,8 @@ section {
 .select .options:after {
   clear: both;
 }
-.select .options a {
+.select .options a,
+.select .options .platform-choice {
   width: 228px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -441,24 +442,33 @@ section {
   text-decoration: none;
 }
 .select .options a:hover,
-.select .options a.active {
+.select .options .platform-choice:hover,
+.select .options a.active,
+.select .options .platform-choice.active {
   outline-color: #fff000;
 }
 .select .options a:before,
-.select .options a:after {
+.select .options .platform-choice:before,
+.select .options a:after,
+.select .options .platform-choice:after {
   display: table;
   content: "";
   line-height: 0;
 }
-.select .options a:after {
+.select .options a:after,
+.select .options .platform-choice:after {
   clear: both;
 }
 .select .options a:first-child,
-.select .options a:nth-child(5n) {
+.select .options .platform-choice:first-child,
+.select .options a:nth-child(5n),
+.select .options .platform-choice:nth-child(5n) {
   margin-left: 0;
 }
 .select .options a:last-child,
-.select .options a:nth-child(8n) {
+.select .options .platform-choice:last-child,
+.select .options a:nth-child(8n),
+.select .options .platform-choice:nth-child(8n) {
   margin-right: 0;
 }
 /* Typography */
