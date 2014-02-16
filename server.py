@@ -126,7 +126,7 @@ def actually_create_bet(bet_object):
     pp(bet_object)
     proposer_from_db = mongo.db.users.find_one({"pebble_token": bet_object['proposer_token']})
     accepter_from_db = mongo.db.users.find_one({"pebble_token": bet_object['accepter_token']})
-    bet_info = mongo.db.users_bets.find_one({"_id": ObjectId(bet_object["bet_id"])})
+    bet_info = mongo.db.user_bets.find_one({"_id": ObjectId(bet_object["bet_id"])})
     print "BET INFO!!!"
     pp(bet_info)
     pp(proposer_from_db)
