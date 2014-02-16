@@ -20,20 +20,20 @@
 		<header>
 			<div class="container">
 				</a>
-				<a href="#" class="logo-text">
+				<a href="/" class="logo-text">
 					<img src="{{ url_for('static', filename='img/logo.svg') }}" alt="BetsOn" />
 				</a>
 
 				<div class="user">
 					<div class="outlined">
-						<a href="#">
+						<a href="https://venmo.com/{{ session.username }}">
 							<div class="avatar avatar-sm">
 								<img src="{{ session.avatar_url }}" alt="Avatar" />
 							</div>
 							{{ session.firstname }} {{ session.lastname }}
 						</a>
 						<span class="icon-logout">
-							<a href="#">
+							<a href="/logout">
 								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 									 width="21.992px" height="22.008px" viewBox="0 0 21.992 22.008" style="enable-background:new 0 0 21.992 22.008;"
 									 xml:space="preserve">
