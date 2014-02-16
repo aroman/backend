@@ -111,6 +111,10 @@ img, svg {
 
 .outlined {
 	border:3px solid @ghost;
+	
+	&.active {
+		border-color:@green;
+	}
 }
 
 .tag {
@@ -672,10 +676,11 @@ header {
 
 .design {
 	
-	
 	.conditions {
 		display: none;
+		
 		a {
+			outline:none;
 			height:auto;
 			padding:4em 1em;
 			
@@ -684,7 +689,7 @@ header {
 			
 			&:hover {
 				outline:none;
-				border-color:@orange;
+				border-color:@green;
 			}
 		}
 	}
