@@ -290,6 +290,7 @@ def setup():
                 "firstname": user_from_oauth['firstname'],
                 "lastname": user_from_oauth['lastname'],
                 "username": user_from_oauth['username'],
+                "created_bets": [],
                 "pair_token": ''.join(random.choice(string.digits) for x in range(6)),
                 "email": user_from_oauth['email'],
                 "picture": user_from_oauth['picture']
@@ -332,8 +333,16 @@ def win():
 @login_required
 def new_bet():
     pp(request.form)
-    return render_template('new_bet.html',
-            logged_in=logged_in())
+    if request.method == 'POST':
+        user_from_db = mongo.db.users.find_one(session['venmo_id'])
+        # user_from_db.created_bets.append({
+
+        #     "label": request.form['']    
+        # })
+        return "Ok"
+    else:
+        return render_template('new_bet.html',
+                logged_in=logged_in())
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)

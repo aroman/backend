@@ -51,8 +51,8 @@
 						<a href="#" data-has-vars=false data-cond-id="2" class="condition">I've got more karma on reddit</a>
 					</div>
 					<div id="custom-conditions" class="options conditions">
-						<a href="#" data-has-vars=false data-cond-id="1" class="condition">Website will contain string</a>
-						<a href="#" data-has-vars=false data-cond-id="2" class="condition">Website won't contain string</a>
+						<a href="#" data-has-vars=true data-cond-id="1" class="condition">Website will contain string</a>
+						<a href="#" data-has-vars=true data-cond-id="2" class="condition">Website won't contain string</a>
 					</div>
 				</div>
 			</section>
@@ -67,8 +67,12 @@
 				</hgroup>
 				<div class="inner select">
 					<div class="options variables">
-						When <input type="text" class="fill-line" />,
-						that player wins!
+						If <input id="url_field" type="text" class="fill-line" style="width: 250px" placeholder="http://example.com" /> contains <input id="string_field" type="text" class="fill-line" style="width: 150px" placeholder="some string" /> by <select id="time_field">
+						  <option value="now">Right now</option>
+						  <option value="end_of_today">End of today</option>
+						  <option value="end_of_tomrrow">End of tomorrow</option>
+						  <option value="custom-date">Custom date...</option>
+						</select>, that player wins!
 					</div>
 				</div>
 			</section>
@@ -92,9 +96,10 @@
 			</section> -->
 			
 			<div class="submit">
-				<a href="#" id="save-bet-btn" disabled="disabled" class="btn btn-primary btn-lg">Save this Bet</a>
+				<a href="#" id="save-bet-btn" class="btn btn-primary btn-lg disabled">Save this Bet</a>
 			</div>
 			<script>
+				$("html, body").scrollTo("#choose-win-condition", 0);
 				current_platform = "";
 				$(".platform-choice").click(function (e) {
 					if ($(e.target).attr('id') != current_platform) {
@@ -124,16 +129,17 @@
 
 				});
 				$(".condition").click (function (e) {
-					$("#save-bet-btn").prop("disabled", false);
+					$("#save-bet-btn").removeClass("disabled");
 					var has_vars = $(e.target).data('has-vars')
-					var cond_id = $(e.target).data('cond-id')
+					cond_id = $(e.target).data('cond-id')
 					$(".condition").removeClass("active");
 					$(e.target).addClass("active");
 
+					$("html, body").scrollTo("#footer", 0, 100000);
 					console.log(has_vars)
 					if (has_vars) {
 						$("#set-variable-values").fadeIn();
-						$("html, body").scrollTo("#set-variable-values", 1000, {offset: {top: 10}});
+						// $("html, body").scrollTo("#set-variable-values", 1000, {offset: {top: 10}});
 					} else {
 						// No vars
 					}
@@ -142,6 +148,18 @@
 					// setTimeout(function () {
 					// }, 250);
 				})
+				$("#save-bet-btn").click( function () {
+					console.log("Submitting form");
+					var to_post = {
+						"platform": current_platform,
+						"url": $("#url_field").val(),
+						"string": $("#string_field").val(),
+						"time": $("#time_field").val()
+					};
+					$.post("/bets/new", to_post, function (data) {
+						window.location = "/";
+					});
+				});
 			</script>
 		</div>
 	</div>
