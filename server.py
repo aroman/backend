@@ -326,10 +326,11 @@ def bets():
             "description": created_bet['kind'],
             "id": created_bet['_id']
         })
+    pp(da_bets)
     bets_data = [{"label": "propwin", "id": 100, "description": "Proposer will always win!"},
     {"label": "proplose", "id": 200, "description": "Proposer will always win!"}]
 
-    return jsonify(bets=bets_data)
+    return jsonify(bets=da_bets)
 
 @app.route("/win", methods=['GET'])
 def win():
