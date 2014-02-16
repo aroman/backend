@@ -126,6 +126,7 @@ def actually_create_bet(bet_object):
     proposer_from_db = mongo.db.users.find_one({"pebble_token": bet_object['proposer_token']})
     accepter_from_db = mongo.db.users.find_one({"pebble_token": bet_object['accepter_token']})
     bet_info = mongo.db.users_bets.find_one({"creator": proposer_from_db['_id']})
+    pp({"creator": proposer_from_db['_id']})
     print "BET INFO!!!"
     pp(bet_info)
     pp(proposer_from_db)
@@ -186,7 +187,7 @@ def shake_propose(bet_id):
                     "accepter_token": shake['accepter_token'],
                 })
                 shakes_in_progress.remove(shake)
-                tweet("who has more twitter followers", "personsTwitter")
+                # tweet("who has more twitter followers", "personsTwitter")
                 print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
     if already_in:
@@ -224,7 +225,7 @@ def shake_accept():
                     "accepter_token": pebble_token,
                 })
                 shakes_in_progress.remove(shake)
-                tweet("who has more twitter followers", "personsTwitter")
+                # tweet("who has more twitter followers", "personsTwitter")
                 print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
     if already_in:
