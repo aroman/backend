@@ -37,22 +37,22 @@
 				</hgroup>
 				<div class="inner select">
 					<div id="hackernews-conditions" class="options conditions">
-						<a href="#" class="condition">I've been on Hacker News Longer</a>
-						<a href="#" class="condition">I've got more karma on Hacker News</a>
+						<a href="#" data-has-vars=false data-cond-id="1" class="condition">I've been on Hacker News Longer</a>
+						<a href="#" data-has-vars=false data-cond-id="2" class="condition">I've got more karma on Hacker News</a>
 					</div>
 					<div id="twitter-conditions" class="options conditions">
-						<a href="#" class="condition">I've got more followers on twitter</a>
-						<a href="#" class="condition">I've got more tweets on twitter</a>
-						<a href="#" class="condition">My latest tweet got more retweets</a>
-						<a href="#" class="condition">My latest tweet got more favorites</a>
+						<a href="#" data-has-vars=false data-cond-id="1" class="condition">I've got more followers on twitter</a>
+						<a href="#" data-has-vars=false data-cond-id="2" class="condition">I've got more tweets on twitter</a>
+						<a href="#" data-has-vars=false data-cond-id="3" class="condition">My latest tweet got more retweets</a>
+						<a href="#" data-has-vars=false data-cond-id="4" class="condition">My latest tweet got more favorites</a>
 					</div>
 					<div id="reddit-conditions" class="options conditions">
-						<a href="#" class="condition">I've been a member for longer</a>
-						<a href="#" class="condition">I've got more karma on reddit</a>
+						<a href="#" data-has-vars=false data-cond-id="1" class="condition">I've been a member for longer</a>
+						<a href="#" data-has-vars=false data-cond-id="2" class="condition">I've got more karma on reddit</a>
 					</div>
 					<div id="custom-conditions" class="options conditions">
-						<a href="#" class="condition">Website will contain string</a>
-						<a href="#" class="condition">Website won't contain string</a>
+						<a href="#" data-has-vars=false data-cond-id="1" class="condition">Website will contain string</a>
+						<a href="#" data-has-vars=false data-cond-id="2" class="condition">Website won't contain string</a>
 					</div>
 				</div>
 			</section>
@@ -109,12 +109,13 @@
 						$("#choose-win-condition").fadeIn();
 						$(".conditions").hide();
 						$('#' + current_platform + "-conditions").show();
-						setTimeout(function () {
-							$("html, body").scrollTo("#choose-platform", 1000, {offset: {top: 10}});
+						$("html, body").scrollTo("#choose-win-condition", 1000, {offset: {top: 10}});
+						// setTimeout(function () {
+							// $("html, body").scrollTo("#choose-platform", 1000, {offset: {top: 10}});
 							// $('html, body').animate({
 							//         scrollTop: $("#choose-platform").offset().top - 10
 						 //    }, 1000);
-						}, 250);
+						// }, 250);
 
 					} else {
 						// EXISTING SELECTION
@@ -122,13 +123,24 @@
 					}
 
 				});
-				$(".condition").click (function () {
-					$("#set-variable-values").fadeIn();
+				$(".condition").click (function (e) {
+					var has_vars = $(e.target).data('has-vars')
+					var cond_id = $(e.target).data('cond-id')
+					$(".condition").removeClass("active");
+					$(e.target).addClass("active");
+
+					console.log(has_vars)
+					if (has_vars) {
+						$("#set-variable-values").fadeIn();
+						$("html, body").scrollTo("#set-variable-values", 1000, {offset: {top: 10}});
+					} else {
+						// No vars
+						if ()
+					}
 					// $(".conditions").hide();
 					// $('#' + current_platform + "-conditions").show();
-					setTimeout(function () {
-						("html, body").scrollTo("#set-variable-values", 1000, {offset: {top: 10}});
-					}, 250);
+					// setTimeout(function () {
+					// }, 250);
 				})
 			</script>
 		</div>
