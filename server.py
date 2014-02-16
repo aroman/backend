@@ -101,23 +101,24 @@ def actually_create_bet(bet_object):
     if bet_object['bet_id'] == 100:
         # Hard code: proposer wins
         actual_charge = bet_object['bet_amount']
-        venmo_note = "%s won a bet with %s!" % (proposer_from_db.firstname, accepter_from_db.firstname)
+        venmo_note = "%s won a bet with %s!" % (proposer_from_db['firstname'], accepter_from_db['firstname'])
         proposer_won = True
     elif bet_object['bet_id'] == 200:
         # Hard code: proposer loses
         actual_charge = -bet_object['bet_amount']
-        venmo_note = "%s lost a bet with %s!" % (accepter_from_db.firstname, proposer_from_db.firstname)
+        venmo_note = "%s lost a bet with %s!" % (accepter_from_db['firstname'], proposer_from_db['firstname'])
         proposer_won = False
     else:
         err = "ERROR: Unknown bet ID!"
         return err
-    mongo.db.bets.insert({
+    mongo_res = mongo.db.bets.insert({
         "proposer": proposer_from_db['_id'],
         "accepter": accepter_from_db['_id'],
         "amount": bet_object['amount'],
         "timestamp": bet_object['timestamp'],
         "proposer_won": proposer_won 
     })
+    pp(mongo_res)
     url = "https://api.venmo.com/payments"
     data = {
         "access_token": proposer_from_db['access_token'],
