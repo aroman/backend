@@ -154,6 +154,7 @@
 					// $('#' + current_platform + "-conditions").show();
 					// setTimeout(function () {
 					// }, 250);
+					return false;
 				})
 				$("#save-bet-btn").click( function () {
 					console.log("Submitting form");
@@ -167,6 +168,7 @@
 					$.post("/bets/new", to_post, function (data) {
 						window.location = "/";
 					});
+					return false;
 				});
 			</script>
 		</div>
