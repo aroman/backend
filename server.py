@@ -126,7 +126,7 @@ def actually_create_bet(bet_object):
     url = "https://api.venmo.com/payments"
     data = {
         "access_token": proposer_from_db['access_token'],
-        "user_id": accepter_from_db['venmo_id'],
+        "user_id": accepter_from_db['_id'],
         "note": "%s (via BetsOn)" % venmo_note,
         "amount": actual_charge 
     }
