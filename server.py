@@ -182,7 +182,6 @@ def shake_propose(bet_id):
                     "accepter_token": shake['accepter_token'],
                 })
                 shakes_in_progress.remove(shake)
-                send_email("You just created a bet to see who has more twitter followers for $200", "jarzon@bergen.org")
                 tweet("who has more twitter followers", "personsTwitter")
                 print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
@@ -221,7 +220,6 @@ def shake_accept():
                     "accepter_token": pebble_token,
                 })
                 shakes_in_progress.remove(shake)
-                send_email("You just created a bet to see who has more twitter followers for $200", "jarzon@bergen.org")
                 tweet("who has more twitter followers", "personsTwitter")
                 print "WE'VE GOT A MATCH!!!!!!!!!"
                 return "WE'VE GOT A MATCH!!!!!"
