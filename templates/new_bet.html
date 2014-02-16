@@ -10,7 +10,7 @@
 
 	<div class="container">
 		<div class="design">
-			<section>
+			<section id="choose-platform">
 				<hgroup class="mid">
 					<div class="order">
 						1
@@ -28,7 +28,7 @@
 			</section>
 			
 
-			<section id="choose-win-condition">
+			<section id="choose-win-condition" style="display: none">
 				<hgroup class="mid">
 					<div class="order">
 						2
@@ -36,28 +36,29 @@
 					<h2>Choose a Win Condition</h2>
 				</hgroup>
 				<div class="inner select">
-					<div class="options conditions">
-						<a href="#">
-							Past Level X
-						</a>
-						<a href="#">
-							At Level X with Y Lives
-						</a>
-						<a href="#">
-							When X Happens
-						</a>
-						<a href="#">
-							When X Happens
-						</a>
-						<a href="#">
-							When X Happens
-						</a>
+					<div id="hackernews-conditions" class="options conditions">
+						<a href="#">I've been on Hacker News Longer</a>
+						<a href="#">I've got more karma on Hacker News</a>
+					</div>
+					<div id="twitter-conditions" class="options conditions">
+						<a href="#">I've got more followers on twitter</a>
+						<a href="#">I've got more tweets on twitter</a>
+						<a href="#">My latest tweet got more retweets</a>
+						<a href="#">My latest tweet got more favorites</a>
+					</div>
+					<div id="reddit-conditions" class="options conditions">
+						<a href="#">I've been a member for longer</a>
+						<a href="#">I've got more karma on reddit</a>
+					</div>
+					<div id="custom-conditions" class="options conditions">
+						<a href="#">Website will contain string</a>
+						<a href="#">Website won't contain string</a>
 					</div>
 				</div>
 			</section>
 			
 
-			<section>
+			<section id="set-variable-values" style="display: none">
 				<hgroup class="mid">
 					<div class="order">
 						3
@@ -73,7 +74,7 @@
 			</section>
 			
 
-			<section>
+<!-- 			<section>
 				<hgroup class="mid">
 					<div class="order">
 						4
@@ -88,16 +89,34 @@
 						<a href="#" class="btn btn-facebook">Share Results on Facebook</a>
 					</div>
 				</div>
-			</section>
+			</section> -->
 			
 			<div class="submit">
 				<a href="#" class="btn btn-primary btn-lg">Save this Bet</a>
 			</div>
 			<script>
-				$(".platform-choice").click(function () {
-					$('html, body').animate({
-					        scrollTop: $("#choose-win-condition").offset().top
-				    }, 2000);
+				current_platform = "";
+				$(".platform-choice").click(function (e) {
+					if ($(e.target).attr('id') != current_platform) {
+						current_platform = $(e.target).attr('id') 
+
+						$("*").removeClass("platform-chosen");
+						$(e.target).parent().addClass("platform-chosen");
+						$(".platform-choice:not(.platform-chosen)").addClass('disabled');
+						$(".platform-choice:not(.platform-chosen)").removeClass('disabled');
+
+						$("#choose-win-condition").fadeIn();
+						$('#' + current_platform + "-conditions").show();
+						setTimeout(function () {
+							$('html, body').animate({
+							        scrollTop: $("#choose-platform").offset().top
+						    }, 1000);
+						}, 250);
+					} else {
+						// EXISTING SELECTION
+						// NO FUCKING OP
+					}
+
 				});
 			</script>
 		</div>

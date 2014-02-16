@@ -666,6 +666,9 @@ header .icon-logout:hover path {
 .bets td.bet {
   text-align: right;
 }
+.design .conditions {
+  display: none;
+}
 .design .conditions a {
   height: auto;
   padding: 4em 1em;
