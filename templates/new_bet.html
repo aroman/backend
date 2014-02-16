@@ -28,7 +28,7 @@
 			</section>
 			
 
-			<section>
+			<section id="choose-win-condition">
 				<hgroup class="mid">
 					<div class="order">
 						2
@@ -94,7 +94,11 @@
 				<a href="#" class="btn btn-primary btn-lg">Save this Bet</a>
 			</div>
 			<script>
-				$("#hackernews").click)
+				$(".platform-choice").click(function () {
+					$('html, body').animate({
+					        scrollTop: $("#choose-win-condition").offset().top
+				    }, 2000);
+				});
 			</script>
 		</div>
 	</div>
