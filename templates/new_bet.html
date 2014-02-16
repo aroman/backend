@@ -67,12 +67,19 @@
 				</hgroup>
 				<div class="inner select">
 					<div class="options variables">
+						<span>Bet name:</span><input id="name_field" type="text" class="fill-line" style="width: 80px; margin-left: 15px;" placeholder="" />
+						<br>
+						<br>
+
 						If <input id="url_field" type="text" class="fill-line" style="width: 250px" placeholder="http://example.com" /> contains <input id="string_field" type="text" class="fill-line" style="width: 150px" placeholder="some string" /> by <select id="time_field">
 						  <option value="now">Right now</option>
 						  <option value="end_of_today">End of today</option>
 						  <option value="end_of_tomrrow">End of tomorrow</option>
 						  <option value="custom-date">Custom date...</option>
 						</select>, that player wins!
+						<br>
+						<br>
+						<center>  </center>
 					</div>
 				</div>
 			</section>
@@ -153,6 +160,7 @@
 					var to_post = {
 						"platform": current_platform,
 						"url": $("#url_field").val(),
+						"name": $("#name_field").val(),
 						"string": $("#string_field").val(),
 						"time": $("#time_field").val()
 					};

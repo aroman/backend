@@ -87,11 +87,12 @@ def tweet(message, other_person, tweet, twitter):
     return False
 
 def send_email(txt, to):
-    s = sendgrid.Sendgrid('jzone3', 'beta-code', secure=True)
+    pass
+    # s = sendgrid.Sendgrid('jzone3', 'beta-code', secure=True)
     # s = sendgrid.Sendgrid('betson', 'betsonbetsoff1', secure=True)
-    message = sendgrid.Message(("info@betsonapp.com", "BetsOn Team"), "Your new bet!", txt)
-    message.add_to(to)
-    s.web.send(message)
+    # message = sendgrid.Message(("info@betsonapp.com", "BetsOn Team"), "Your new bet!", txt)
+    # message.add_to(to)
+    # s.web.send(message)
 
 @app.route("/")
 def index():
@@ -124,6 +125,9 @@ def actually_create_bet(bet_object):
     pp(bet_object)
     proposer_from_db = mongo.db.users.find_one({"pebble_token": bet_object['proposer_token']})
     accepter_from_db = mongo.db.users.find_one({"pebble_token": bet_object['accepter_token']})
+    bet_info = proposer_from_db['created_bets'][bet_object['bet_id']]
+    print "BET INFO!!!"
+    pp(bet_info)
     pp(proposer_from_db)
     pp(accepter_from_db)
     if bet_object['bet_id'] == 100:
@@ -160,7 +164,7 @@ def actually_create_bet(bet_object):
     pp(response.json())
     return "OK" 
 
-@app.route("/shake/<int:bet_id>", methods=['POST'])
+@app.route("/shake/<bet_id>", methods=['POST'])
 def shake_propose(bet_id):
     pebble_token = request.form['pebble_token']
     bet_amount = int(request.form['bet_amount'])
@@ -312,8 +316,19 @@ def setup():
 def bets():
     pebble_token = request.form['pebble_token']
 
+    user_from_db = mongo.db.users.find_one({"pebble_token": pebble_token})
+    pp(user_from_db['created_bets'])
+
+    da_bets = []
+    for created_bet in user_from_db['created_bets']:
+        da_bets.append({
+            "label": created_bet['label'],
+            "description": created_bet['kind'],
+            "id": created_bet['_id']
+        })
     bets_data = [{"label": "propwin", "id": 100, "description": "Proposer will always win!"},
     {"label": "proplose", "id": 200, "description": "Proposer will always win!"}]
+
     return jsonify(bets=bets_data)
 
 @app.route("/win", methods=['GET'])
@@ -334,11 +349,18 @@ def win():
 def new_bet():
     pp(request.form)
     if request.method == 'POST':
-        user_from_db = mongo.db.users.find_one(session['venmo_id'])
-        # user_from_db.created_bets.append({
+        if request.form['platform'] == 'custom':
+            if request.form['time'] == 'now':
+                to_append = {
+                    "creator": session['venmo_id'],
+                    "kind": "grepurl",
+                    "url": request.form['url'],
+                    "label": request.form['name'],
+                    "string": request.form['string'],
+                }
+                mongo_res = mongo.db.users.update({"_id": session['venmo_id']}, {"$push": { "created_bets": to_append }})
+                pp(mongo_res)
 
-        #     "label": request.form['']    
-        # })
         return "Ok"
     else:
         return render_template('new_bet.html',
