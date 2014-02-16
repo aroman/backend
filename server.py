@@ -135,7 +135,7 @@ def actually_create_bet(bet_object):
     pp(response.json())
     return "OK" 
 
-@app.route("/shake/<bet_id>", methods=['POST'])
+@app.route("/shake/<int:bet_id>", methods=['POST'])
 def shake_propose(bet_id):
     pebble_token = request.form['pebble_token']
     bet_amount = request.form['bet_amount']
